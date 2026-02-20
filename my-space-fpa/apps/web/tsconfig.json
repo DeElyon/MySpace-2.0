@@ -19,7 +19,9 @@
       }
     ],
     "paths": {
-      "@/*": ["./*"]
+      "@/*": ["./*"],
+      "@msf/ui": ["../../packages/ui/src/index.ts"],
+      "@msf/config/*": ["../../packages/config/*"]
     }
   },
   "include": [
