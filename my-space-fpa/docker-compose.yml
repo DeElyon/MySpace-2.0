@@ -1,30 +1,33 @@
-version: '3.8'
+version: '3.9'
 
 services:
   # ==================== DATABASES ====================
   postgres:
     image: postgres:16-alpine
-    container_name: msf-postgres
+    container_name: myspace-postgres
     environment:
-      POSTGRES_USER: msf_admin
-      POSTGRES_PASSWORD: msf_password
-      POSTGRES_DB: my_space_fpa
+      POSTGRES_USER: myspace_user
+      POSTGRES_PASSWORD: myspace_password
+      POSTGRES_DB: myspace
+      POSTGRES_INITDB_ARGS: "-c shared_preload_libraries=pg_stat_statements"
     ports:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U msf_admin"]
+      test: ["CMD-SHELL", "pg_isready -U myspace_user"]
       interval: 10s
       timeout: 5s
       retries: 5
+    networks:
+      - myspace-network
 
   redis:
-    image: redis:7.2-alpine
-    container_name: msf-redis
-    command: redis-server --requirepass msf_redis_password
+    image: redis:7-alpine
+    container_name: myspace-redis
     ports:
       - "6379:6379"
+    command: redis-server --appendonly yes
     volumes:
       - redis_data:/data
     healthcheck:
@@ -32,176 +35,91 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    networks:
+      - myspace-network
 
-  elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:8.12.0
-    container_name: msf-elasticsearch
-    environment:
-      - discovery.type=single-node
-      - xpack.security.enabled=false
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-    ports:
-      - "9200:9200"
-      - "9300:9300"
-    volumes:
-      - elasticsearch_data:/usr/share/elasticsearch/data
-
-  # ==================== API GATEWAY ====================
-  api-gateway:
-    build:
-      context: ./services/api-gateway
-      dockerfile: Dockerfile
-    container_name: msf-api-gateway
-    ports:
-      - "4000:4000"
-    environment:
-      - PORT=4000
-      - AUTH_SERVICE_URL=http://auth-service:3000
-      - USER_SERVICE_URL=http://user-service:3001
-      - JOB_SERVICE_URL=http://job-service:3002
-      - PAYMENT_SERVICE_URL=http://payment-service:3003
-      - JWT_SECRET=your-super-secret-jwt-key-change-in-production
-    depends_on:
-      - redis
-    restart: unless-stopped
-
-  # ==================== AUTH SERVICE (Go) ====================
+  # ==================== AUTH SERVICE ====================
   auth-service:
     build:
       context: ./services/auth-service
       dockerfile: Dockerfile
-    container_name: msf-auth-service
+    container_name: myspace-auth-service
     ports:
-      - "3000:3000"
+      - "3002:3002"
     environment:
-      - PORT=3000
-      - DATABASE_URL=postgresql://msf_admin:msf_password@postgres:5432/my_space_fpa
-      - REDIS_URL=redis://:msf_redis_password@redis:6379
-      - JWT_SECRET=your-super-secret-jwt-key
+      NODE_ENV: development
+      PORT: 3002
+      JWT_SECRET: dev-secret-key-change-in-production
+      DATABASE_URL: postgresql://myspace_user:myspace_password@postgres:5432/myspace
+      REDIS_URL: redis://redis:6379
     depends_on:
       postgres:
         condition: service_healthy
       redis:
         condition: service_healthy
     restart: unless-stopped
+    networks:
+      - myspace-network
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3002/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
-  # ==================== USER SERVICE (Node.js) ====================
-  user-service:
+  # ==================== API GATEWAY ====================
+  api-gateway:
     build:
-      context: ./services/user-service
+      context: ./services/api-gateway
       dockerfile: Dockerfile
-    container_name: msf-user-service
+    container_name: myspace-api-gateway
     ports:
-      - "3001:3001"
+      - "4000:4000"
     environment:
-      - PORT=3001
-      - DATABASE_URL=postgresql://msf_admin:msf_password@postgres:5432/my_space_fpa
-      - AUTH_SERVICE_URL=http://auth-service:3000
+      NODE_ENV: development
+      PORT: 4000
+      JWT_SECRET: dev-secret-key-change-in-production
+      AUTH_SERVICE_URL: http://auth-service:3002
+      DATABASE_URL: postgresql://myspace_user:myspace_password@postgres:5432/myspace
+      REDIS_URL: redis://redis:6379
     depends_on:
-      - postgres
-      - auth-service
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      auth-service:
+        condition: service_healthy
     restart: unless-stopped
-
-  # ==================== JOB SERVICE (Python) ====================
-  job-service:
-    build:
-      context: ./services/job-service
-      dockerfile: Dockerfile
-    container_name: msf-job-service
-    ports:
-      - "3002:3002"
-    environment:
-      - PORT=3002
-      - DATABASE_URL=postgresql://msf_admin:msf_password@postgres:5432/my_space_fpa
-      - ELASTICSEARCH_URL=http://elasticsearch:9200
-    depends_on:
-      - postgres
-      - elasticsearch
-    restart: unless-stopped
-
-  # ==================== PAYMENT SERVICE (Java) ====================
-  payment-service:
-    build:
-      context: ./services/payment-service
-      dockerfile: Dockerfile
-    container_name: msf-payment-service
-    ports:
-      - "3003:3003"
-    environment:
-      - PORT=3003
-      - DATABASE_URL=postgresql://msf_admin:msf_password@postgres:5432/my_space_fpa
-      - REDIS_URL=redis://:msf_redis_password@redis:6379
-    depends_on:
-      - postgres
-      - redis
-    restart: unless-stopped
-
-  # ==================== MESSAGING SERVICE (Elixir) ====================
-  messaging-service:
-    build:
-      context: ./services/messaging-service
-      dockerfile: Dockerfile
-    container_name: msf-messaging-service
-    ports:
-      - "3004:3004"
-    environment:
-      - PORT=3004
-      - DATABASE_URL=postgresql://msf_admin:msf_password@postgres:5432/my_space_fpa
-      - REDIS_URL=redis://:msf_redis_password@redis:6379
-    depends_on:
-      - postgres
-      - redis
-    restart: unless-stopped
+    networks:
+      - myspace-network
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:4000/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   # ==================== WEB FRONTEND ====================
   web:
     build:
       context: ./apps/web
       dockerfile: Dockerfile
-    container_name: msf-web
+    container_name: myspace-web
     ports:
       - "3000:3000"
     environment:
-      - NEXT_PUBLIC_API_URL=http://localhost:4000/graphql
-      - NEXT_PUBLIC_WS_URL=ws://localhost:3004
+      NODE_ENV: development
+      NEXT_PUBLIC_API_URL: http://localhost:4000/graphql
+      NEXT_PUBLIC_AUTH_SERVICE_URL: http://localhost:3002
     depends_on:
-      - api-gateway
+      api-gateway:
+        condition: service_healthy
     restart: unless-stopped
-
-  # ==================== MONITORING ====================
-  prometheus:
-    image: prom/prometheus:latest
-    container_name: msf-prometheus
-    volumes:
-      - ./infrastructure/monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
-      - prometheus_data:/prometheus
-    ports:
-      - "9090:9090"
-    command:
-      - '--config.file=/etc/prometheus/prometheus.yml'
-      - '--storage.tsdb.path=/prometheus'
-    restart: unless-stopped
-
-  grafana:
-    image: grafana/grafana:latest
-    container_name: msf-grafana
-    environment:
-      - GF_SECURITY_ADMIN_PASSWORD=admin
-    ports:
-      - "3005:3000"
-    volumes:
-      - grafana_data:/var/lib/grafana
-    depends_on:
-      - prometheus
-    restart: unless-stopped
+    networks:
+      - myspace-network
 
 volumes:
   postgres_data:
   redis_data:
-  elasticsearch_data:
-  prometheus_data:
-  grafana_data:
 
 networks:
-  default:
-    name: msf-network
+  myspace-network:
+    driver: bridge

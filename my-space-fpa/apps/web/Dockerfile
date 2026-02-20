@@ -1,39 +1,31 @@
-FROM node:22-alpine AS builder
+# Build stage
+FROM node:20-alpine AS builder
 
 WORKDIR /app
 
-# Install pnpm
-RUN corepack enable && corepack prepare pnpm@9.0.0 --activate
+COPY package.json pnpm-lock.yaml* ./
 
-# Copy package files
-COPY package.json pnpm-workspace.yaml pnpm-lock.yaml* ./
-COPY apps/web/package.json ./apps/web/
-COPY packages/ui/package.json ./packages/ui/
+RUN npm install -g pnpm && pnpm install --frozen-lockfile
 
-# Install dependencies
-RUN pnpm install --frozen-lockfile
+COPY . .
 
-# Copy source code
-COPY apps/web ./apps/web
-COPY packages/ui ./packages/ui
+ENV NEXT_TELEMETRY_DISABLED=1
+RUN pnpm run build
 
-# Build the application
-RUN pnpm build:web
-
-# Production image
-FROM node:22-alpine
+# Production stage
+FROM node:20-alpine
 
 WORKDIR /app
 
-# Install pnpm
-RUN corepack enable && corepack prepare pnpm@9.0.0 --activate
+RUN npm install -g pnpm
 
-COPY package.json pnpm-workspace.yaml ./
-COPY apps/web/package.json ./apps/web/
-COPY --from=builder /app/apps/web/.next ./apps/web/.next
-COPY --from=builder /app/apps/web/node_modules ./apps/web/node_modules
-COPY --from=builder /app/node_modules ./node_modules
+COPY package.json pnpm-lock.yaml* ./
+
+RUN pnpm install --prod --frozen-lockfile
+
+COPY --from=builder /app/.next ./.next
+COPY --from=builder /app/public ./public
 
 EXPOSE 3000
 
-CMD ["pnpm", "--filter", "web", "start"]
+CMD ["pnpm", "start"]
