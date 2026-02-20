@@ -1,0 +1,2145 @@
+# 🎨 **MY SPACE FPA - COMPREHENSIVE DESIGN DOCUMENT v2.0**
+## *Next-Gen Freelance Platform by EL VERSE*
+### *"Shaping Visions in 2026"*
+
+---
+
+## **DESIGN DOCUMENT CONTROL**
+
+| Version | Date | Designer | Changes |
+|---------|------|----------|---------|
+| 2.0 | 2026 | MySpace Design Team | Complete 2026 redesign with collaboration suite |
+
+---
+
+## **PART 1: DESIGN PHILOSOPHY & BRAND IDENTITY**
+
+### **1.1 Design Principles 2026**
+
+```javascript
+DESIGN_PRINCIPLES = {
+  "immersive": "Create depth and spatial awareness",
+  "collaborative": "Design for multi-user interaction",
+  "intelligent": "AI-enhanced without being intrusive",
+  "fluid": "Smooth transitions between workspaces",
+  "inclusive": "Accessible to all users globally",
+  "secure": "Security visible but not obstructive"
+}
+```
+
+### **1.2 Brand Identity Evolution**
+
+#### **1.2.1 Logo System**
+```
+Primary Logo: "MSF 2026" - Dynamic version that transforms
+- Default: Static elegant wordmark
+- Active: Pulsing gradient (when in call/collaboration)
+- Meeting: Multiple dots representing participants
+- Coding: Cursor blink integration
+- VR: 3D depth version
+```
+
+#### **1.2.2 Color Palette 2026**
+
+```css
+:root {
+  /* Primary Colors */
+  --msf-deep-space: #0A0F1E;      /* Main background */
+  --msf-cosmic-purple: #6366F1;    /* Primary actions */
+  --msf-neon-cyan: #22D3EE;        /* Active states, AI */
+  --msf-emerald-glow: #10B981;      /* Success, payments */
+  
+  /* Secondary Colors */
+  --msf-creative-coral: #F87171;    /* Alerts, creativity */
+  --msf-warning-amber: #FBBF24;     /* Warnings, deadlines */
+  --msf-focus-blue: #38BDF8;        /* Selection, focus */
+  
+  /* Neutrals */
+  --msf-void: #030712;              /* Deepest background */
+  --msf-elevation-1: #1F2937;       /* Cards, surfaces */
+  --msf-elevation-2: #374151;       /* Hover states */
+  --msf-mist: #9CA3AF;               /* Secondary text */
+  --msf-pure-light: #F9FAFB;         /* Primary text */
+  
+  /* Gradients */
+  --gradient-cosmic: linear-gradient(135deg, #6366F1 0%, #22D3EE 100%);
+  --gradient-success: linear-gradient(135deg, #10B981 0%, #34D399 100%);
+  --gradient-warning: linear-gradient(135deg, #F87171 0%, #FBBF24 100%);
+  --gradient-meeting: linear-gradient(45deg, #6366F1, #F87171, #22D3EE);
+}
+```
+
+#### **1.2.3 Typography System 2026**
+
+```css
+/* Primary Font: Inter - Clean, modern, excellent readability */
+--font-primary: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+
+/* Secondary Font: JetBrains Mono - For code, technical content */
+--font-code: 'JetBrains Mono', 'Fira Code', monospace;
+
+/* Display Font: Clash Display - For headings, special sections */
+--font-display: 'Clash Display', 'Inter', sans-serif;
+
+/* Font Scale */
+--text-xs: 0.75rem;    /* 12px - Labels, timestamps */
+--text-sm: 0.875rem;   /* 14px - Secondary text */
+--text-base: 1rem;      /* 16px - Body text */
+--text-lg: 1.125rem;    /* 18px - Lead text */
+--text-xl: 1.25rem;     /* 20px - Subheadings */
+--text-2xl: 1.5rem;     /* 24px - Small headings */
+--text-3xl: 1.875rem;   /* 30px - Medium headings */
+--text-4xl: 2.25rem;    /* 36px - Large headings */
+--text-5xl: 3rem;       /* 48px - Hero headings */
+--text-6xl: 3.75rem;    /* 60px - Display headings */
+```
+
+#### **1.2.4 Spacing System**
+
+```css
+--space-unit: 0.25rem;  /* 4px base unit */
+
+--space-1: 0.25rem;   /* 4px */
+--space-2: 0.5rem;    /* 8px */
+--space-3: 0.75rem;   /* 12px */
+--space-4: 1rem;      /* 16px */
+--space-6: 1.5rem;    /* 24px */
+--space-8: 2rem;      /* 32px */
+--space-12: 3rem;     /* 48px */
+--space-16: 4rem;     /* 64px */
+--space-20: 5rem;     /* 80px */
+--space-24: 6rem;     /* 96px */
+```
+
+---
+
+## **PART 2: UI COMPONENT LIBRARY 2026**
+
+### **2.1 Core Components**
+
+#### **2.1.1 Glassmorphism Cards**
+
+```jsx
+<GlassCard variant="elevated" interactive glow={isActive}>
+  <CardHeader>
+    <Avatar src={user.avatar} status={user.status} />
+    <Typography variant="h3">{user.name}</Typography>
+  </CardHeader>
+  <CardContent>
+    {children}
+  </CardContent>
+  <CardFooter>
+    <ButtonGroup>
+      <Button variant="primary" icon={VideoIcon}>Call</Button>
+      <Button variant="secondary" icon={ChatIcon}>Message</Button>
+    </ButtonGroup>
+  </CardFooter>
+</GlassCard>
+```
+
+**Styles:**
+```css
+.glass-card {
+  background: rgba(31, 41, 55, 0.7);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 24px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.glass-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 48px rgba(99, 102, 241, 0.2);
+}
+```
+
+#### **2.1.2 Navigation System**
+
+```
+Desktop Navigation:
+├── Left Sidebar (Collapsible)
+│   ├── Logo + Brand
+│   ├── Primary Nav Icons
+│   │   ├── 🏠 Dashboard
+│   │   ├── 💼 Jobs
+│   │   ├── 👥 Network
+│   │   ├── 💬 Messages
+│   │   ├── 📁 Projects
+│   │   └── ⚙️ Settings
+│   └── Bottom Actions
+│       ├── 🌙 Theme Toggle
+│       └── 🚪 Logout
+│
+├── Top Bar
+│   ├── Search (Global)
+│   ├── Notifications (Real-time)
+│   ├── Wallet Balance
+│   └── User Menu
+│
+└── Right Panel (Contextual)
+    ├── Active Users
+    ├── Meeting Controls
+    └── Quick Actions
+```
+
+#### **2.1.3 Button System 2026**
+
+```jsx
+// Primary Action Button
+<Button 
+  variant="primary"
+  size="lg"
+  icon={<VideoIcon />}
+  glowEffect
+  onClick={startCall}
+>
+  Start Instant Meeting
+</Button>
+
+// AI-Enhanced Button
+<Button
+  variant="ai"
+  pulseAnimation
+  tooltip="AI can help you write this proposal"
+>
+  Write with AI ✨
+</Button>
+
+// Collaborative Button
+<Button
+  variant="collaborative"
+  activeUsers={3}
+  onClick={joinSession}
+>
+  Join Live Coding Session
+</Button>
+```
+
+---
+
+### **2.2 Collaboration Components 2026**
+
+#### **2.2.1 Video Meeting Interface**
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│  🎥 Meeting: Project Review - 4 participants               │
+├─────────────────────────────────────────────────────────────┤
+│  ┌─────────────┐ ┌─────────────┐ ┌─────────────┐          │
+│  │   Speaker   │ │ Participant │ │ Participant │  Controls│
+│  │   (Large)   │ │   (Small)   │ │   (Small)   │  ┌─────┐ │
+│  │             │ │             │ │             │  │🎤   │ │
+│  │             │ │             │ │             │  │📹   │ │
+│  │             │ │             │ │             │  │📺   │ │
+│  └─────────────┘ └─────────────┘ └─────────────┘  │📝   │ │
+│  ┌─────────────────────────────────────────────┐  │🤚   │ │
+│  │  Chat | Participants | Whiteboard | Files   │  └─────┘ │
+│  └─────────────────────────────────────────────┘          │
+└─────────────────────────────────────────────────────────────┘
+```
+
+**Meeting Controls Design:**
+```css
+.meeting-controls {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(31, 41, 55, 0.9);
+  backdrop-filter: blur(12px);
+  border-radius: 60px;
+  padding: 12px 24px;
+  display: flex;
+  gap: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+.control-button {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.control-button.active {
+  background: var(--msf-cosmic-purple);
+}
+
+.control-button.danger {
+  background: #EF4444;
+}
+
+.control-button:hover {
+  transform: scale(1.1);
+}
+```
+
+#### **2.2.2 Whiteboard Interface**
+
+```
+┌────────────────────────────────────────────────────┐
+│ 🖌️ Whiteboard: UI Wireframes - 2 editors online   │
+├────────────────────────────────────────────────────┤
+│ ┌────────────────────────────────────────────────┐│
+│ │                                                ││
+│ │    [User 1 cursor] 👆                          ││
+│ │        ┌─────┐                                 ││
+│ │        │Login│  [User 2 selection] ██████     ││
+│ │        │Form │                                 ││
+│ │        └─────┘                                 ││
+│ │              ┌──────┐                          ││
+│ │              │Dashboard│ [Drawing tools]       ││
+│ │              └──────┘  🖊️ 📏 🎨 🔤            ││
+│ │                                                ││
+│ └────────────────────────────────────────────────┘│
+├────────────────────────────────────────────────────┤
+│ 🔴 Live: User1  🟢 User2  🟡 User3                │
+└────────────────────────────────────────────────────┘
+```
+
+**Toolbar Design:**
+```jsx
+<WhiteboardToolbar>
+  <ToolGroup>
+    <ToolButton icon={CursorIcon} active>Select</ToolButton>
+    <ToolButton icon={PenIcon}>Draw</ToolButton>
+    <ToolButton icon={ShapeIcon}>Shapes</ToolButton>
+    <ToolButton icon={TextIcon}>Text</ToolButton>
+    <ToolButton icon={StickyIcon}>Sticky Note</ToolButton>
+  </ToolGroup>
+  
+  <ToolGroup>
+    <ColorPicker />
+    <StrokeWidth />
+    <OpacitySlider />
+  </ToolGroup>
+  
+  <ToolGroup>
+    <ToolButton icon={UndoIcon} />
+    <ToolButton icon={RedoIcon} />
+    <ToolButton icon={ClearIcon} />
+    <ToolButton icon={ExportIcon}>Export</ToolButton>
+  </ToolGroup>
+  
+  <LiveCursors users={activeUsers} />
+</WhiteboardToolbar>
+```
+
+#### **2.2.3 IDE Interface Design**
+
+```
+┌─────────────────────────────────────────────────────────┐
+│ 📁 Project: ecommerce-app │ Branch: main │ 🔄 Saving   │
+├─────────────────────────────────────────────────────────┤
+│ ┌─────────────┐ ┌─────────────────────────────────────┐│
+│ │ 📂 Explorer │ │ import React from 'react';          ││
+│ │ ├── src/    │ │ import { useState } from 'react';   ││
+│ │ │ ├── App.js│ │                                      ││
+│ │ │ ├── index.│ │ function App() {                     ││
+│ │ │ └── styles│ │   const [user, setUser] = useState(││
+│ │ ├── public/ │ │                                      ││
+│ │ ├── package.│ │   return (                           ││
+│ │ └── README.md│ │     <div className="app">          ││
+│ │             │ │       <Header user={user} />        ││
+│ └─────────────┘ │ [User2 cursor] 👉 <MainContent />   ││
+│                 │     </div>                           ││
+│                 │   );                                 ││
+│                 │ }                                    ││
+│                 └─────────────────────────────────────┘│
+├─────────────────────────────────────────────────────────┤
+│ ⚡ Problems │ 🐛 Debug │ 📦 Terminal │ 📊 Git │ 👥 Live  │
+└─────────────────────────────────────────────────────────┘
+```
+
+---
+
+### **2.3 Dashboard Components**
+
+#### **2.3.1 Smart Dashboard Layout**
+
+```jsx
+<DashboardLayout>
+  {/* Welcome Section with AI Insights */}
+  <WelcomeSection>
+    <Greeting>Good afternoon, John! 👋</Greeting>
+    <AIInsight>
+      ✨ 3 high-matching jobs posted in the last hour
+    </AIInsight>
+  </WelcomeSection>
+
+  {/* Quick Actions Grid */}
+  <QuickActionsGrid>
+    <QuickActionCard
+      icon={VideoIcon}
+      title="Start Meeting"
+      subtitle="Instant video call"
+      color="gradient-cosmic"
+    />
+    <QuickActionCard
+      icon={CodeIcon}
+      title="Open IDE"
+      subtitle="Continue coding"
+      progress={75}
+    />
+    <QuickActionCard
+      icon={WalletIcon}
+      title="Wallet"
+      subtitle="₦245,000 balance"
+      alert="Pending withdrawal"
+    />
+    <QuickActionCard
+      icon={ProjectIcon}
+      title="Submit Project"
+      subtitle="2 pending reviews"
+      badge="Due tomorrow"
+    />
+  </QuickActionsGrid>
+
+  {/* Activity Feed with Real-time Updates */}
+  <ActivityFeed>
+    <FeedHeader>
+      <Title>Live Activity</Title>
+      <FilterDropdown />
+    </FeedHeader>
+    
+    <FeedItem type="proposal" user="Sarah" action="submitted" target="E-commerce App" time="2m ago" />
+    <FeedItem type="payment" user="System" action="payment received" amount="₦50,000" time="5m ago" />
+    <FeedItem type="meeting" user="Team" action="started meeting" participants={3} time="10m ago" />
+    <FeedItem type="code" user="Mike" action="committed to" repo="main" time="15m ago" />
+  </ActivityFeed>
+
+  {/* Active Collaborations */}
+  <ActiveCollaborations>
+    <CollaborationCard
+      title="E-commerce Platform"
+      users={[
+        { name: "You", active: true },
+        { name: "Alice", active: true, typing: true },
+        { name: "Bob", active: false }
+      ]}
+      lastActivity="Alice is coding in App.js"
+    />
+  </ActiveCollaborations>
+</DashboardLayout>
+```
+
+---
+
+## **PART 3: PAGE LAYOUTS & SCREENS**
+
+### **3.1 Landing Page 2026**
+
+```
+┌─────────────────────────────────────────────────────────┐
+│  [Logo] My Space FPA                    [Login] [Sign Up]│
+├─────────────────────────────────────────────────────────┤
+│  ┌───────────────────────────────────────────────────┐  │
+│  │  🚀 Shape Your Vision in 2026                      │  │
+│  │  The first immersive freelancing platform         │  │
+│  │  with built-in IDE, video, and AI collaboration   │  │
+│  │                                                    │  │
+│  │  [Get Started Free] [Watch Demo ▶]                │  │
+│  │                                                    │  │
+│  │  ✨ Trusted by 50,000+ freelancers                 │  │
+│  └───────────────────────────────────────────────────┘  │
+│                                                          │
+│  ┌─────────────────┐ ┌─────────────────┐ ┌─────────────┐│
+│  │  🎥 Video Calls │ │  💻 Live IDE    │ │  🤖 AI Buddy││
+│  │  HD quality     │ │  Real-time      │ │  Smart match││
+│  │  Screen share   │ │  Pair programming│ │  24/7 help  ││
+│  └─────────────────┘ └─────────────────┘ └─────────────┘│
+│                                                          │
+│  [Live Demo: See it in action]                          │
+│  ┌───────────────────────────────────────────────────┐  │
+│  │  │ User1 │ │ User2 │ │ Whiteboard │ │ Code Editor│  │
+│  │  └───────────────────────────────────────────────┘  │
+└─────────────────────────────────────────────────────────┘
+```
+
+### **3.2 Job Marketplace Interface**
+
+```jsx
+<JobMarketplace>
+  {/* Advanced Search */}
+  <SearchSection>
+    <SearchBar 
+      placeholder="Search jobs, skills, or projects..."
+      filters={['Category', 'Budget', 'Duration', 'Skills']}
+    />
+    <AIMatchToggle>
+      🤖 Show me matching jobs (92% match confidence)
+    </AIMatchToggle>
+  </SearchSection>
+
+  {/* Job Grid */}
+  <JobGrid>
+    {jobs.map(job => (
+      <JobCard
+        key={job.id}
+        title={job.title}
+        budget={job.budget}
+        skills={job.skills}
+        proposals={job.proposals}
+        timeLeft={job.deadline}
+        matchScore={job.aiMatchScore}
+        isNew={job.isNew}
+        clientRating={job.clientRating}
+        action={
+          <Button variant="primary" size="sm">
+            Quick Apply ✨
+          </Button>
+        }
+      />
+    ))}
+  </JobGrid>
+</JobMarketplace>
+```
+
+---
+
+## **PART 4: MICRO-INTERACTIONS & ANIMATIONS**
+
+### **4.1 Animation System**
+
+```css
+/* Page Transitions */
+.page-enter {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.page-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 300ms, transform 300ms;
+}
+
+/* Hover Effects */
+.hover-lift {
+  transition: transform 0.2s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-4px);
+}
+
+/* Loading States */
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 0 0 var(--msf-cosmic-purple); }
+  50% { box-shadow: 0 0 20px 5px var(--msf-cosmic-purple); }
+}
+
+.ai-thinking {
+  animation: pulse-glow 2s infinite;
+}
+
+/* Real-time Indicators */
+@keyframes cursor-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.live-cursor {
+  animation: cursor-blink 1s infinite;
+}
+
+@keyframes typing-dots {
+  0%, 20% { content: '.'; }
+  40%, 60% { content: '..'; }
+  80%, 100% { content: '...'; }
+}
+
+.typing-indicator::after {
+  content: '...';
+  animation: typing-dots 1.5s infinite;
+}
+```
+
+### **4.2 Sound Design**
+
+```javascript
+SOUND_SCHEME = {
+  notification: 'soft-chime.mp3',
+  message: 'gentle-pop.mp3',
+  meetingJoin: 'whoosh.mp3',
+  meetingLeave: 'soft-woosh.mp3',
+  payment: 'success-ding.mp3',
+  error: 'gentle-error.mp3',
+  aiSuggestion: 'sparkle.mp3',
+  codeComplete: 'soft-click.mp3',
+  whiteboardDraw: 'pencil-sketch.mp3'
+}
+```
+
+---
+
+## **PART 5: RESPONSIVE DESIGN 2026**
+
+### **5.1 Breakpoints**
+
+```css
+/* Mobile First Approach */
+--breakpoint-sm: 640px;   /* Mobile landscape */
+--breakpoint-md: 768px;   /* Tablet */
+--breakpoint-lg: 1024px;  /* Desktop */
+--breakpoint-xl: 1280px;  /* Large desktop */
+--breakpoint-2xl: 1536px; /* Ultra-wide */
+```
+
+### **5.2 Mobile Adaptations**
+
+```jsx
+// Mobile Meeting Interface
+<MobileMeetingView>
+  {isSpeakerView ? (
+    <SpeakerView participant={activeSpeaker} />
+  ) : (
+    <GridParticipants participants={participants} />
+  )}
+  
+  <BottomSheet>
+    <SheetHeader>
+      <TabButtons tabs={['Chat', 'Participants', 'Whiteboard']} />
+    </SheetHeader>
+    <SheetContent activeTab={activeTab} />
+  </BottomSheet>
+  
+  <FloatingControls>
+    <ControlButton icon={MicIcon} isActive={micOn} />
+    <ControlButton icon={VideoIcon} isActive={videoOn} />
+    <ControlButton icon={ScreenIcon} />
+    <ControlButton icon={EndIcon} variant="danger" />
+  </FloatingControls>
+</MobileMeetingView>
+```
+
+---
+
+## **PART 6: ACCESSIBILITY 2026**
+
+### **6.1 WCAG 2.2 AAA Compliance**
+
+```css
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+  :root {
+    --msf-deep-space: #000000;
+    --msf-pure-light: #FFFFFF;
+    --msf-cosmic-purple: #AA00FF;
+    --border-width: 2px;
+  }
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Screen Reader Only */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+```
+
+---
+
+## **PART 7: DESIGN SYSTEM DOCUMENTATION**
+
+### **7.1 Component Status**
+
+| Component | Status | Figma | Storybook | Accessibility |
+|-----------|--------|-------|-----------|---------------|
+| Button | ✅ Done | [Link] | [Link] | ✅ AA |
+| Video Grid | 🚧 In Progress | [Link] | [Link] | 🚧 |
+| Whiteboard | ✅ Done | [Link] | [Link] | ✅ AA |
+| IDE | 🚧 In Progress | [Link] | [Link] | 🚧 |
+| Meeting Controls | ✅ Done | [Link] | [Link] | ✅ AAA |
+
+### **7.2 Design Tokens**
+
+```javascript
+// design-tokens.js
+export const tokens = {
+  colors: { /* ... */ },
+  typography: { /* ... */ },
+  spacing: { /* ... */ },
+  breakpoints: { /* ... */ },
+  animations: {
+    duration: {
+      fast: '150ms',
+      base: '300ms',
+      slow: '500ms',
+      express: '1000ms'
+    },
+    easing: {
+      smooth: 'cubic-bezier(0.4, 0, 0.2, 1)',
+      bounce: 'cubic-bezier(0.68, -0.55, 0.265, 1.55)',
+      sharp: 'cubic-bezier(0.4, 0, 0.6, 1)'
+    }
+  }
+}
+```
+
+---
+
+## **PART 8: DESIGN ASSETS & DELIVERABLES**
+
+### **8.1 Asset Library**
+
+```
+/assets
+├── /logos
+│   ├── msf-primary.svg
+│   ├── msf-dark.svg
+│   ├── msf-light.svg
+│   └── msf-icon.svg
+├── /icons
+│   ├── /outline (200+ icons)
+│   ├── /solid (200+ icons)
+│   └── /animated (50+ icons)
+├── /illustrations
+│   ├── /collaboration
+│   ├── /freelancing
+│   └── /success
+├── /mockups
+│   ├── /dashboard
+│   ├── /meeting
+│   ├── /ide
+│   └── /mobile
+└── /prototypes
+    ├── /interactive
+    └── /framer
+```
+
+### **8.2 Design Handoff Checklist**
+
+```javascript
+HANDOFF_CHECKLIST = {
+  figma: {
+    components: ['all components documented'],
+    variants: ['all states defined'],
+    autoLayout: ['responsive constraints set'],
+    styles: ['color styles', 'text styles', 'effect styles']
+  },
+  documentation: {
+    usage: ['when to use', 'when not to use'],
+    behavior: ['interactions', 'animations'],
+    accessibility: ['keyboard', 'screen reader', 'contrast']
+  },
+  assets: {
+    icons: ['SVG optimized'],
+    images: ['@2x @3x @4x'],
+    fonts: ['web fonts', 'licenses']
+  }
+}
+```
+
+---
+
+## **PART 9: FUTURE DESIGN ROADMAP 2026-2027**
+
+### **Q1 2026**
+- ✅ Core design system
+- ✅ Video meeting interface
+- ✅ Whiteboard component
+- 🚧 IDE design
+
+### **Q2 2026**
+- 🚧 VR meeting spaces
+- 🚧 3D avatars
+- 🚧 Spatial audio visualization
+
+### **Q3 2026**
+- 🎯 AR project preview
+- 🎯 Gesture controls
+- 🎯 Brain-computer interface (research)
+
+### **Q4 2026**
+- 🎯 Holographic displays
+- 🎯 Neural network visualization
+- 🎯 Quantum computing interface
+
+---
+
+## **PART 10: DESIGN PRINCIPLES IN ACTION**
+
+### **10.1 Immersive Example**
+
+```jsx
+// The "Flow State" - When coding + meeting + whiteboard merge
+<ImmersiveWorkspace>
+  <FloatingVideoParticipants side="right" collapsed={focus} />
+  <CodeEditor focusMode={focus} aiAssistant={true} />
+  <GestureControl>
+    <Whiteboard reference="left" opacity={focus ? 0.3 : 1} />
+  </GestureControl>
+  <AmbientSound track="coffee-shop" volume={focus ? 0 : 0.3} />
+</ImmersiveWorkspace>
+```
+
+### **10.2 Collaborative Example**
+
+```jsx
+<CollaborativeSession>
+  <UserPresence>
+    <AvatarStack users={activeUsers} />
+    <TypingIndicator user={currentlyTyping} />
+  </UserPresence>
+  
+  <RealTimeSync>
+    <LiveCursor id="user1" position={cursorPos} color="#6366F1" />
+    <LiveSelection id="user2" range={selectionRange} color="#10B981" />
+  </RealTimeSync>
+  
+  <ActivityNotifications>
+    <Toast message="Sarah joined the file" />
+    <Toast message="Mike commented on line 42" />
+  </ActivityNotifications>
+</CollaborativeSession>
+```
+
+---
+
+## **APPENDIX: DESIGN RESOURCES**
+
+### **Figma Community Links**
+- [My Space FPA Design System]
+- [Component Library]
+- [Icon Set]
+- [Prototypes]
+
+### **Design Tools Used**
+- Figma (Primary design tool)
+- Framer (Interactive prototypes)
+- Lottie (Animations)
+- Spline (3D assets)
+- Rive (Complex interactions)
+
+---
+# 📋 **MY SPACE FPA - PROFILE & SETTINGS PRD**
+## *Comprehensive User Profile & Account Management System*
+### *"Shaping Your Digital Identity"*
+
+---
+
+## **DOCUMENT CONTROL**
+
+| Version | Date | Author | Changes |
+|---------|------|--------|---------|
+| 1.0 | 2026 | MySpace Product Team | Initial Profile & Settings PRD |
+
+---
+
+## **PART 1: EXECUTIVE SUMMARY**
+
+### **1.1 Overview**
+The Profile & Settings system is the digital identity hub of My Space FPA, enabling users to manage their professional presence, account preferences, security settings, and personal information. This system serves as the central command center for user identity management with complete control including account deletion capabilities.
+
+### **1.2 Key Objectives**
+- Create a comprehensive professional identity showcase
+- Provide granular privacy and security controls
+- Enable seamless account management including deletion
+- Integrate with all platform features (wallet, jobs, meetings)
+- Ensure GDPR/NDPR compliance for data management
+
+---
+
+## **PART 2: USER PROFILES**
+
+### **2.1 Profile Types & Views**
+
+#### **2.1.1 Public Profile View**
+```
+┌─────────────────────────────────────────────────────┐
+│                    PUBLIC PROFILE                    │
+├─────────────────────────────────────────────────────┤
+│                                                    │
+│  ┌──────┐  Sarah Johnson                          │
+│  │  🖼️  │  @sarahjohnson · Freelancer            │
+│  │ AVATAR│  ★ 4.9 (128 reviews)                   │
+│  └──────┘  📍 Lagos, Nigeria                      │
+│            🤝 500+ connections                     │
+│                                                    │
+│  [Contact Me] [Hire Me] [Follow]                   │
+│                                                    │
+│  📊 STATS                                           │
+│  ┌─────────────┐ ┌─────────────┐ ┌─────────────┐  │
+│  │ 45 Projects │ │ ₦2.5M Earned│ │ 98% Success │  │
+│  └─────────────┘ └─────────────┘ └─────────────┘  │
+│                                                    │
+│  🛠️ TOP SKILLS                                      │
+│  React ● 5 yrs    Node.js ● 4 yrs                  │
+│  TypeScript ● 3 yrs MongoDB ● 3 yrs                │
+│  [View all 12 skills]                              │
+│                                                    │
+│  📝 ABOUT                                           │
+│  Full-stack developer with 5+ years experience...  │
+│  [Read more]                                       │
+│                                                    │
+│  💼 PORTFOLIO                                       │
+│  ┌─────┐ ┌─────┐ ┌─────┐ ┌─────┐                  │
+│  │Proj1│ │Proj2│ │Proj3│ │+12  │                  │
+│  └─────┘ └─────┘ └─────┘ └─────┘                  │
+│                                                    │
+│  📋 WORK HISTORY                                    │
+│  ├─ E-commerce App · TechCorp                      │
+│  │  ⭐⭐⭐⭐⭐ · Completed Mar 2026                   │
+│  ├─ Admin Dashboard · StartupX                      │
+│  │  ⭐⭐⭐⭐ · Completed Jan 2026                    │
+│  └─ [View all]                                      │
+│                                                    │
+│  📝 RECOMMENDATIONS                                 │
+│  "Sarah is an exceptional developer..."            │
+│  — Michael O., CEO at TechCorp                      │
+│  └─ [2 more recommendations]                        │
+│                                                    │
+│  📱 SOCIAL LINKS                                    │
+│  [GitHub] [LinkedIn] [Twitter] [Portfolio]        │
+└─────────────────────────────────────────────────────┘
+```
+
+#### **2.1.2 Profile Components**
+
+```javascript
+PROFILE_SECTIONS = {
+  header: {
+    avatar: {
+      formats: ['jpg', 'png', 'gif'],
+      maxSize: '5MB',
+      dimensions: '400x400px',
+      features: ['upload', 'remove', 'frame selection']
+    },
+    coverImage: {
+      dimensions: '1200x300px',
+      templates: ['professional', 'creative', 'minimal']
+    },
+    basicInfo: {
+      displayName: { required: true, maxLength: 50 },
+      username: { unique: true, pattern: '^[a-zA-Z0-9_]+$' },
+      tagline: { maxLength: 100, placeholder: 'e.g., Senior React Developer' },
+      location: { required: true },
+      availability: ['available', 'busy', 'open to offers', 'not looking']
+    }
+  },
+
+  stats: {
+    projectsCompleted: { auto: true },
+    totalEarnings: { auto: true, currency: 'NGN' },
+    successRate: { auto: true, calculation: 'completed/offers' },
+    responseTime: { auto: true, avg: 'hours' },
+    lastActive: { auto: true, format: 'time ago' }
+  },
+
+  professional: {
+    skills: {
+      type: 'array',
+      maxItems: 50,
+      endorsement: { enabled: true, maxPerSkill: 10 },
+      verification: ['test', 'project', 'manual']
+    },
+    experience: {
+      type: 'array',
+      fields: ['title', 'company', 'startDate', 'endDate', 'description', 'current']
+    },
+    education: {
+      type: 'array',
+      fields: ['degree', 'institution', 'year', 'description']
+    },
+    certifications: {
+      type: 'array',
+      fields: ['name', 'issuer', 'date', 'credentialId', 'url']
+    },
+    languages: {
+      type: 'array',
+      fields: ['language', 'proficiency']
+    }
+  },
+
+  portfolio: {
+    projects: {
+      type: 'array',
+      maxItems: 50,
+      fields: ['title', 'description', 'images', 'url', 'github', 'technologies']
+    },
+    featured: { type: 'boolean', maxFeatured: 3 }
+  },
+
+  social: {
+    github: { type: 'url', placeholder: 'https://github.com/username' },
+    linkedin: { type: 'url', placeholder: 'https://linkedin.com/in/username' },
+    twitter: { type: 'url', placeholder: 'https://twitter.com/username' },
+    website: { type: 'url', placeholder: 'https://yourportfolio.com' },
+    behance: { type: 'url' },
+    dribbble: { type: 'url' },
+    medium: { type: 'url' },
+    stackoverflow: { type: 'url' }
+  },
+
+  reviews: {
+    received: { type: 'array', auto: true },
+    given: { type: 'array', auto: true },
+    rating: { type: 'float', auto: true, range: '0-5' }
+  },
+
+  badges: {
+    type: 'array',
+    categories: ['skill', 'achievement', 'milestone', 'verification'],
+    autoAward: true
+  }
+}
+```
+
+### **2.2 Profile Edit Interface**
+
+#### **2.2.1 Edit Profile Layout**
+
+```
+┌─────────────────────────────────────────────────────┐
+│  ✏️ EDIT PROFILE                     [Preview] [Save]│
+├─────────────────────────────────────────────────────┤
+│                                                    │
+│  ┌─────────────────────────────────────────────┐  │
+│  │           COVER IMAGE                        │  │
+│  │   [Change Cover] [Remove] [View Templates]  │  │
+│  └─────────────────────────────────────────────┘  │
+│                                                    │
+│  ┌──────┐                                         │
+│  │  🖼️  │ AVATAR                                   │
+│  │      │ [Upload] [Remove] [Edit Frame]         │
+│  └──────┘                                         │
+│                                                    │
+│  📋 BASIC INFORMATION                              │
+│  ┌─────────────────────────────────────────────┐  │
+│  │ Display Name *                               │  │
+│  │ [Sarah Johnson                            ] │  │
+│  │ This appears on your profile                 │  │
+│  └─────────────────────────────────────────────┘  │
+│                                                    │
+│  ┌─────────────────────────────────────────────┐  │
+│  │ Username *                                   │  │
+│  │ [sarahjohnson                              ] │  │
+│  │ myspace.fpa/sarahjohnson  [Check Availability]│  │
+│  └─────────────────────────────────────────────┘  │
+│                                                    │
+│  ┌─────────────────────────────────────────────┐  │
+│  │ Professional Tagline                         │  │
+│  │ [Senior Full-Stack Developer | React Native]│  │
+│  │ 45/100 characters                            │  │
+│  └─────────────────────────────────────────────┘  │
+│                                                    │
+│  ┌─────────────────────────────────────────────┐  │
+│  │ Location *                                   │  │
+│  │ [Lagos, Nigeria                           ] │  │
+│  │ [📍 Use current location]                    │  │
+│  └─────────────────────────────────────────────┘  │
+│                                                    │
+│  ┌─────────────────────────────────────────────┐  │
+│  │ Availability                                 │  │
+│  │ [● Available for work         ▼]            │  │
+│  └─────────────────────────────────────────────┘  │
+│                                                    │
+│  📝 ABOUT                                          │
+│  ┌─────────────────────────────────────────────┐  │
+│  │ [Full-stack developer with 5+ years...    ]│  │
+│  │ 245/500 characters · [AI Enhance] ✨        │  │
+│  └─────────────────────────────────────────────┘  │
+│                                                    │
+│  🛠️ SKILLS                                         │
+│  ┌─────────────────────────────────────────────┐  │
+│  │ [Search skills...]          [Add Custom]    │  │
+│  │                                              │  │
+│  │ Selected Skills:                             │  │
+│  │ React ✕  Node.js ✕  TypeScript ✕            │  │
+│  │ MongoDB ✕  GraphQL ✕  Docker ✕              │  │
+│  │ [Add more skills]                            │  │
+│  │                                              │  │
+│  │ Skill Verification:                          │  │
+│  │ □ Take skill test                            │  │
+│  │ □ Upload certificate                          │  │
+│  │ □ Request endorsement                         │  │
+│  └─────────────────────────────────────────────┘  │
+│                                                    │
+│  [Save Changes]                    [Cancel]       │
+└─────────────────────────────────────────────────────┘
+```
+
+### **2.3 Profile Completion System**
+
+```javascript
+PROFILE_COMPLETION = {
+  algorithm: {
+    base: 0,
+    increments: {
+      avatar: 10,
+      coverImage: 5,
+      displayName: 5,
+      tagline: 5,
+      about: 10,
+      skills: { min: 3, perSkill: 2, max: 20 },
+      experience: { perItem: 5, max: 15 },
+      education: { perItem: 3, max: 9 },
+      portfolio: { perItem: 3, max: 15 },
+      socialLinks: { perLink: 2, max: 10 },
+      verification: { email: 5, phone: 5, identity: 10 }
+    },
+    bonus: {
+      featuredProject: 5,
+      certification: 3,
+      recommendation: 2,
+      badge: 1
+    }
+  },
+  
+  tiers: {
+    beginner: { range: '0-40', features: ['basic search'] },
+    intermediate: { range: '41-70', features: ['priority search', 'more proposals'] },
+    advanced: { range: '71-90', features: ['featured profile', 'badge'] },
+    expert: { range: '91-100', features: ['verified badge', 'top placement'] }
+  },
+  
+  recommendations: {
+    missingItems: ['Add portfolio to increase visibility by 30%'],
+    tips: ['Complete your skills to get better job matches'],
+    nextSteps: ['Verify your identity to unlock higher limits']
+  }
+}
+```
+
+---
+
+## **PART 3: SETTINGS SYSTEM**
+
+### **3.1 Settings Navigation**
+
+```
+┌─────────────────────────────────────────────────────┐
+│  ⚙️ SETTINGS                      [Save All Changes]│
+├─────────────────────────────────────────────────────┤
+│                                                    │
+│  ┌─────────────────────┐ ┌─────────────────────┐  │
+│  │ 👤 Account          │ │ 🔒 Privacy & Security│  │
+│  │ • Profile visibility│ │ • Two-factor auth   │  │
+│  │ • Account type      │ │ • Login history     │  │
+│  │ • Delete account    │ │ • Blocked users     │  │
+│  └─────────────────────┘ └─────────────────────┘  │
+│                                                    │
+│  ┌─────────────────────┐ ┌─────────────────────┐  │
+│  │ 💰 Wallet & Payments│ │ 🔔 Notifications    │  │
+│  │ • Bank accounts     │ │ • Email preferences│  │
+│  │ • Withdrawal limits │ │ • Push notifications│  │
+│  │ • Currency settings │ │ • SMS alerts       │  │
+│  └─────────────────────┘ └─────────────────────┘  │
+│                                                    │
+│  ┌─────────────────────┐ ┌─────────────────────┐  │
+│  │ 🎨 Appearance      │ │ 🌐 Language & Region│  │
+│  │ • Dark/Light mode  │ │ • Language         │  │
+│  │ • Compact view     │ │ • Timezone         │  │
+│  │ • Font size        │ │ • Date format      │  │
+│  └─────────────────────┘ └─────────────────────┘  │
+│                                                    │
+│  ┌─────────────────────┐ ┌─────────────────────┐  │
+│  │ 🤝 Collaboration   │ │ 🎥 Meeting Settings │  │
+│  │ • Default permissions│ │ • Camera default   │  │
+│  │ • Team settings     │ │ • Microphone       │  │
+│  │ • Share defaults    │ │ • Background      │  │
+│  └─────────────────────┘ └─────────────────────┘  │
+│                                                    │
+│  ┌─────────────────────┐ ┌─────────────────────┐  │
+│  │ 📊 Data & Analytics │ │ 🤖 AI Preferences  │  │
+│  │ • Usage data       │ │ • AI assistance level│  │
+│  │ • Export data      │ │ • Auto-suggestions  │  │
+│  │ • Delete data      │ │ • Privacy mode     │  │
+│  └─────────────────────┘ └─────────────────────┘  │
+└─────────────────────────────────────────────────────┘
+```
+
+### **3.2 Account Settings Deep Dive**
+
+#### **3.2.1 Account Information**
+
+```jsx
+<AccountSettings>
+  <Section title="Account Information">
+    <FormField label="Email Address">
+      <Input type="email" value="sarah@example.com" />
+      <Button variant="ghost">Change</Button>
+      <Badge status="verified">Verified</Badge>
+    </FormField>
+    
+    <FormField label="Phone Number">
+      <Input value="+234 801 234 5678" />
+      <Button variant="ghost">Change</Button>
+      <Badge status="pending">Unverified</Badge>
+    </FormField>
+    
+    <FormField label="Password">
+      <Input type="password" value="********" disabled />
+      <Button variant="primary">Update Password</Button>
+    </FormField>
+  </Section>
+
+  <Section title="Account Type">
+    <RadioGroup defaultValue="freelancer">
+      <Radio value="freelancer" description="I want to offer services">
+        Freelancer
+      </Radio>
+      <Radio value="client" description="I want to hire talent">
+        Client
+      </Radio>
+      <Radio value="company" description="I represent an organization">
+        Company
+      </Radio>
+      <Radio value="agency" description="I manage a team of freelancers">
+        Agency
+      </Radio>
+    </RadioGroup>
+    
+    <Alert variant="info">
+      Changing account type will affect your dashboard and available features.
+      Some data may need to be reconfigured.
+    </Alert>
+  </Section>
+</AccountSettings>
+```
+
+#### **3.2.2 Privacy & Security**
+
+```javascript
+PRIVACY_SETTINGS = {
+  profileVisibility: {
+    options: [
+      { value: 'public', label: 'Public - Anyone can see', description: 'Visible in search, recommended for active freelancers' },
+      { value: 'connections', label: 'Connections Only', description: 'Only your network can see full profile' },
+      { value: 'private', label: 'Private - Invite only', description: 'Only people you approve can view' }
+    ],
+    default: 'public'
+  },
+  
+  contactInfo: {
+    email: { visibility: ['public', 'connections', 'private'], default: 'connections' },
+    phone: { visibility: ['connections', 'private', 'none'], default: 'private' },
+    address: { visibility: ['private', 'none'], default: 'none' }
+  },
+  
+  activityStatus: {
+    showOnline: { type: 'boolean', default: true },
+    showTyping: { type: 'boolean', default: true },
+    readReceipts: { type: 'boolean', default: true },
+    lastSeen: { type: 'boolean', default: true }
+  },
+  
+  twoFactorAuth: {
+    enabled: { type: 'boolean', default: false },
+    methods: ['sms', 'authenticator', 'email', 'fingerprint'],
+    backupCodes: { type: 'array', length: 10 }
+  },
+  
+  loginHistory: {
+    track: { type: 'boolean', default: true },
+    alerts: { type: 'boolean', default: true },
+    devices: { type: 'array', auto: true }
+  },
+  
+  blocking: {
+    blockedUsers: { type: 'array', max: 100 },
+    blockedKeywords: { type: 'array', max: 50 },
+    mutedNotifications: { type: 'array' }
+  },
+  
+  dataSharing: {
+    analytics: { type: 'boolean', default: true },
+    personalizedAds: { type: 'boolean', default: false },
+    thirdPartySharing: { type: 'boolean', default: false },
+    aiTraining: { type: 'boolean', default: false }
+  }
+}
+```
+
+#### **3.2.3 Two-Factor Authentication Flow**
+
+```
+┌─────────────────────────────────────────────────────┐
+│  🔐 TWO-FACTOR AUTHENTICATION                        │
+├─────────────────────────────────────────────────────┤
+│                                                    │
+│  Current Status: ● Disabled                         │
+│                                                    │
+│  [Enable 2FA]                                       │
+│                                                    │
+│  ┌─────────────────────────────────────────────┐  │
+│  │  Recommended Methods:                        │  │
+│  │                                              │  │
+│  │  📱 Authenticator App  [Setup]               │  │
+│  │     Most secure option                        │  │
+│  │                                              │  │
+│  │  📞 SMS Authentication  [Setup]              │  │
+│  │     Codes via text message                    │  │
+│  │                                              │  │
+│  │  🔑 Security Key     [Setup]                 │  │
+│  │     Hardware key (FIDO2)                      │  │
+│  │                                              │  │
+│  │  ✋ Fingerprint       [Setup]                 │  │
+│  │     Biometric authentication                  │  │
+│  └─────────────────────────────────────────────┘  │
+│                                                    │
+│  Backup Options:                                    │
+│  □ Generate backup codes                           │
+│  □ Add recovery email                              │
+│  □ Set recovery phone                              │
+└─────────────────────────────────────────────────────┘
+```
+
+#### **3.2.4 Notification Preferences**
+
+```jsx
+<NotificationSettings>
+  <Category title="Jobs & Projects">
+    <Toggle 
+      label="New job matches" 
+      description="Get notified when jobs match your skills"
+      defaultChecked
+      channels={['push', 'email']}
+    />
+    <Toggle 
+      label="Proposal updates" 
+      description="When clients view/interact with proposals"
+      defaultChecked
+      channels={['push', 'email', 'sms']}
+    />
+    <Toggle 
+      label="Project deadlines" 
+      description="Daily reminders before deadlines"
+      defaultChecked
+      frequency="daily"
+    />
+    <Toggle 
+      label="Milestone completed" 
+      description="When milestones are approved"
+      defaultChecked
+    />
+  </Category>
+
+  <Category title="Messages">
+    <Toggle 
+      label="New messages" 
+      description="Instant notifications for new chats"
+      defaultChecked
+      schedule={{ start: '9:00', end: '21:00', timezone: 'Africa/Lagos' }}
+    />
+    <Toggle 
+      label="Mentions" 
+      description="When someone @mentions you"
+      defaultChecked
+    />
+    <Toggle 
+      label="Message requests" 
+      description="When someone outside network messages"
+    />
+  </Category>
+
+  <Category title="Payments">
+    <Toggle 
+      label="Payment received" 
+      description="When money enters your wallet"
+      defaultChecked
+    />
+    <Toggle 
+      label="Withdrawal status" 
+      description="Updates on withdrawal requests"
+      defaultChecked
+    />
+    <Toggle 
+      label="Low balance alerts" 
+      description="When wallet below ₦10,000"
+      threshold="custom"
+    />
+  </Category>
+
+  <Category title="Social">
+    <Toggle 
+      label="Connection requests" 
+      description="When someone wants to connect"
+      defaultChecked
+    />
+    <Toggle 
+      label="Recommendations" 
+      description="When endorsed or recommended"
+    />
+    <Toggle 
+      label="Blog interactions" 
+      description="Likes, comments on your posts"
+    />
+  </Category>
+
+  <Category title="System">
+    <Toggle 
+      label="Security alerts" 
+      description="Login attempts, password changes"
+      defaultChecked
+      urgent
+    />
+    <Toggle 
+      label="Platform updates" 
+      description="New features, maintenance"
+    />
+    <Toggle 
+      label="Weekly digest" 
+      description="Summary of activity"
+      schedule="weekly"
+    />
+  </Category>
+
+  <Divider />
+  
+  <QuietHours
+    enabled={true}
+    start="22:00"
+    end="08:00"
+    timezone="Africa/Lagos"
+    exceptions={['security', 'payments']}
+  />
+</NotificationSettings>
+```
+
+---
+
+## **PART 4: ACCOUNT DELETION SYSTEM**
+
+### **4.1 Account Deletion Flow**
+
+#### **4.1.1 Pre-Deletion Checklist**
+
+```javascript
+DELETION_CHECKLIST = {
+  prerequisites: [
+    'Zero wallet balance',
+    'No active projects',
+    'No pending payments',
+    'No disputes',
+    'No ongoing subscriptions'
+  ],
+  
+  consequences: [
+    'Profile permanently removed',
+    'Cannot recover messages',
+    'Portfolio lost permanently',
+    'Reviews and ratings removed',
+    'Connections lost',
+    'Username becomes available'
+  ],
+  
+  alternatives: [
+    'Temporary deactivation (30 days)',
+    'Pause account (3 months)',
+    'Reduce visibility',
+    'Change account type'
+  ]
+}
+```
+
+#### **4.1.2 Deletion Interface**
+
+```
+┌─────────────────────────────────────────────────────┐
+│  ⚠️ DELETE ACCOUNT                                   │
+├─────────────────────────────────────────────────────┤
+│                                                    │
+│  🚨 WARNING: This action is permanent               │
+│                                                    │
+│  ┌─────────────────────────────────────────────┐  │
+│  │  Before you proceed:                          │  │
+│  │                                              │  │
+│  │  ✓ Wallet balance: ₦0                        │  │
+│  │  ✓ Active projects: 0                        │  │
+│  │  ✓ Pending payments: 0                        │  │
+│  │  ✗ Open disputes: 1                          │  │
+│  │                                              │  │
+│  │  [Resolve Disputes First]                     │  │
+│  └─────────────────────────────────────────────┘  │
+│                                                    │
+│  What will be deleted:                             │
+│  □ Profile information                            │
+│  □ Portfolio and work history                      │
+│  □ Messages and conversations                      │
+│  □ Reviews and ratings                            │
+│  □ Connections                                    │
+│  □ Wallet history                                 │
+│                                                    │
+│  What will be retained:                            │
+│  • Transaction records (legal requirement)        │
+│  • Dispute records (if any)                       │
+│  • Tax documents (7 years)                        │
+│                                                    │
+│  ┌─────────────────────────────────────────────┐  │
+│  │  Reason for leaving (optional):              │  │
+│  │  [▼ Select a reason...                     ] │  │
+│  │                                              │  │
+│  │  ┌─────────────────────────────────────┐    │  │
+│  │  │ Feedback (optional):                 │    │  │
+│  │  │ [                                 ] │    │  │
+│  │  └─────────────────────────────────────┘    │  │
+│  └─────────────────────────────────────────────┘  │
+│                                                    │
+│  ┌─────────────────────────────────────────────┐  │
+│  │  🔐 Verification                             │  │
+│  │                                              │  │
+│  │  Password *                                   │  │
+│  │  [······································]   │  │
+│  │                                              │  │
+│  │  Two-factor code *                           │  │
+│  │  [··········]                                │  │
+│  │                                              │  │
+│  │  Type "DELETE" to confirm *                   │  │
+│  │  [··········]                                │  │
+│  └─────────────────────────────────────────────┘  │
+│                                                    │
+│  [Permanently Delete Account]     [Cancel]        │
+│  (Disabled until all checks pass)                 │
+└─────────────────────────────────────────────────────┘
+```
+
+#### **4.1.3 Deletion Confirmation & Grace Period**
+
+```javascript
+DELETION_PROCESS = {
+  step1_verification: {
+    requirements: ['password', '2fa', 'confirmation_text'],
+    coolingPeriod: '7 days',
+    notifications: ['email', 'sms']
+  },
+  
+  step2_grace_period: {
+    duration: '30 days',
+    status: 'scheduled_for_deletion',
+    reactivation: {
+      possible: true,
+      method: 'login_with_2fa',
+      deadline: 'within 30 days'
+    }
+  },
+  
+  step3_final_deletion: {
+    timing: 'after 30 days',
+    process: 'automated',
+    confirmation: 'email sent'
+  },
+  
+  step4_post_deletion: {
+    dataRetention: {
+      transactionRecords: '7 years',
+      taxDocuments: '7 years',
+      disputeRecords: '5 years',
+      personalData: 'deleted'
+    },
+    accountRecreation: {
+      allowed: true,
+      restrictions: 'cannot reuse username for 1 year'
+    }
+  }
+}
+```
+
+#### **4.1.4 Reactivation During Grace Period**
+
+```
+┌─────────────────────────────────────────────────────┐
+│  🔄 ACCOUNT SCHEDULED FOR DELETION                  │
+├─────────────────────────────────────────────────────┤
+│                                                    │
+│  Your account will be permanently deleted in:       │
+│  ⏰ 25 days 14 hours 32 minutes                    │
+│                                                    │
+│  ┌─────────────────────────────────────────────┐  │
+│  │  To reactivate your account:                  │  │
+│  │                                              │  │
+│  │  1. Click the button below                    │  │
+│  │  2. Verify your identity                      │  │
+│  │  3. Confirm reactivation                      │  │
+│  │                                              │  │
+│  │  [Reactivate Account]                         │  │
+│  └─────────────────────────────────────────────┘  │
+│                                                    │
+│  Note: After 30 days, this option expires          │
+│  and all data will be permanently deleted.        │
+└─────────────────────────────────────────────────────┘
+```
+
+---
+
+## **PART 5: DATA MANAGEMENT**
+
+### **5.1 Data Export**
+
+```javascript
+DATA_EXPORT = {
+  formats: ['JSON', 'CSV', 'PDF'],
+  
+  sections: {
+    profile: ['basic info', 'skills', 'experience', 'education'],
+    portfolio: ['projects', 'images', 'descriptions'],
+    transactions: ['payments', 'withdrawals', 'fees'],
+    messages: ['chats', 'files', 'timestamps'],
+    reviews: ['received', 'given', 'responses'],
+    analytics: ['views', 'proposals', 'conversions']
+  },
+  
+  process: {
+    request: 'instant',
+    preparation: 'within 24 hours',
+    delivery: ['email', 'download link'],
+    security: 'password protected zip',
+    expiry: '7 days'
+  }
+}
+```
+
+#### **5.1.2 Data Export Interface**
+
+```
+┌─────────────────────────────────────────────────────┐
+│  📥 EXPORT YOUR DATA                                 │
+├─────────────────────────────────────────────────────┤
+│                                                    │
+│  Select data to export:                             │
+│                                                    │
+│  ☑ Profile Information                             │
+│  ☑ Portfolio & Work History                        │
+│  ☑ Transaction History                             │
+│  ☑ Messages (last 12 months)                       │
+│  ☑ Reviews & Recommendations                        │
+│  ☑ Analytics Data                                  │
+│                                                    │
+│  Format:                                           │
+│  ○ JSON (raw data)                                 │
+│  ● CSV (spreadsheet friendly)                      │
+│  ○ PDF (readable format)                           │
+│                                                    │
+│  [Request Export]                                   │
+│                                                    │
+│  Recent exports:                                    │
+│  ┌─────────────────────────────────────────────┐  │
+│  │ 2026-03-15 · Full data · CSV · [Download]  │  │
+│  │ 2026-02-01 · Transactions · PDF · [Download]│  │
+│  └─────────────────────────────────────────────┘  │
+└─────────────────────────────────────────────────────┘
+```
+
+---
+
+## **PART 6: MOBILE PROFILE VIEWS**
+
+### **6.1 Mobile Profile Layout**
+
+```
+┌─────────────────┐
+│  👤 Sarah       │
+│  @sarahjohnson  │
+│  ★ 4.9 (128)   │
+│  Lagos, Nigeria │
+│                 │
+│  [Contact] [Hire]│
+│                 │
+│  📊 STATS       │
+│  45 Projects    │
+│  ₦2.5M Earned   │
+│  98% Success    │
+│                 │
+│  🛠️ SKILLS      │
+│  React • Node   │
+│  TypeScript     │
+│  [View All 12]  │
+│                 │
+│  📝 ABOUT       │
+│  Full-stack dev │
+│  with 5+ years..│
+│  [Read more]    │
+│                 │
+│  💼 PORTFOLIO   │
+│  [Project 1]    │
+│  [Project 2]    │
+│  [Project 3]    │
+│  [+12 more]     │
+│                 │
+│  [Back to Top]  │
+└─────────────────┘
+```
+
+### **6.2 Mobile Settings Navigation**
+
+```jsx
+<MobileSettings>
+  <SettingsList>
+    <SettingsItem icon="👤" title="Account" badge="2 issues" />
+    <SettingsItem icon="🔒" title="Privacy & Security" />
+    <SettingsItem icon="💰" title="Wallet & Payments" />
+    <SettingsItem icon="🔔" title="Notifications" count={5} />
+    <SettingsItem icon="🎨" title="Appearance" />
+    <SettingsItem icon="🌐" title="Language & Region" />
+    <SettingsItem icon="🤝" title="Collaboration" />
+    <SettingsItem icon="🎥" title="Meeting Settings" />
+    <SettingsItem icon="📊" title="Data & Analytics" />
+    <SettingsItem icon="🤖" title="AI Preferences" />
+    <SettingsItem icon="❓" title="Help & Support" />
+    <SettingsItem icon="⚖️" title="Legal & Policies" />
+    <SettingsItem icon="⚠️" title="Delete Account" warning />
+  </SettingsList>
+</MobileSettings>
+```
+
+---
+
+## **PART 7: TECHNICAL IMPLEMENTATION**
+
+### **7.1 Database Schema**
+
+```sql
+-- Users Table (Extended)
+CREATE TABLE users (
+    id UUID PRIMARY KEY,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    password_hash TEXT NOT NULL,
+    display_name VARCHAR(100),
+    tagline VARCHAR(200),
+    about TEXT,
+    location VARCHAR(100),
+    avatar_url TEXT,
+    cover_url TEXT,
+    account_type ENUM('freelancer', 'client', 'company', 'agency'),
+    account_status ENUM('active', 'suspended', 'deactivated', 'deletion_scheduled'),
+    deletion_scheduled_at TIMESTAMP,
+    profile_completion INTEGER DEFAULT 0,
+    profile_visibility ENUM('public', 'connections', 'private') DEFAULT 'public',
+    last_active TIMESTAMP,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- User Settings
+CREATE TABLE user_settings (
+    user_id UUID PRIMARY KEY REFERENCES users(id),
+    two_factor_enabled BOOLEAN DEFAULT FALSE,
+    two_factor_method VARCHAR(20),
+    notification_preferences JSONB,
+    privacy_settings JSONB,
+    appearance_settings JSONB,
+    language VARCHAR(10) DEFAULT 'en',
+    timezone VARCHAR(50) DEFAULT 'Africa/Lagos',
+    quiet_hours JSONB,
+    ai_preferences JSONB
+);
+
+-- User Skills
+CREATE TABLE user_skills (
+    id UUID PRIMARY KEY,
+    user_id UUID REFERENCES users(id),
+    skill_name VARCHAR(100),
+    proficiency INTEGER CHECK (proficiency >= 1 AND proficiency <= 5),
+    endorsements INTEGER DEFAULT 0,
+    verified BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- User Experience
+CREATE TABLE user_experience (
+    id UUID PRIMARY KEY,
+    user_id UUID REFERENCES users(id),
+    title VARCHAR(200),
+    company VARCHAR(200),
+    start_date DATE,
+    end_date DATE,
+    current BOOLEAN DEFAULT FALSE,
+    description TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- User Education
+CREATE TABLE user_education (
+    id UUID PRIMARY KEY,
+    user_id UUID REFERENCES users(id),
+    degree VARCHAR(200),
+    institution VARCHAR(200),
+    year INTEGER,
+    description TEXT
+);
+
+-- User Portfolio
+CREATE TABLE user_portfolio (
+    id UUID PRIMARY KEY,
+    user_id UUID REFERENCES users(id),
+    title VARCHAR(200),
+    description TEXT,
+    project_url TEXT,
+    github_url TEXT,
+    technologies TEXT[],
+    featured BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- User Social Links
+CREATE TABLE user_social_links (
+    user_id UUID PRIMARY KEY REFERENCES users(id),
+    github VARCHAR(255),
+    linkedin VARCHAR(255),
+    twitter VARCHAR(255),
+    website VARCHAR(255),
+    behance VARCHAR(255),
+    dribbble VARCHAR(255),
+    medium VARCHAR(255),
+    stackoverflow VARCHAR(255)
+);
+
+-- Login History
+CREATE TABLE login_history (
+    id UUID PRIMARY KEY,
+    user_id UUID REFERENCES users(id),
+    ip_address INET,
+    user_agent TEXT,
+    device_info JSONB,
+    location VARCHAR(255),
+    successful BOOLEAN,
+    login_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Account Deletion Requests
+CREATE TABLE deletion_requests (
+    id UUID PRIMARY KEY,
+    user_id UUID REFERENCES users(id),
+    reason VARCHAR(50),
+    feedback TEXT,
+    requested_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    scheduled_for TIMESTAMP,
+    status ENUM('pending', 'cooling', 'cancelled', 'completed'),
+    cancelled_at TIMESTAMP,
+    completed_at TIMESTAMP
+);
+```
+
+### **7.2 API Endpoints**
+
+```javascript
+API_ENDPOINTS = {
+  // Profile
+  'GET /api/profile/:username': 'Get public profile',
+  'GET /api/profile/:username/private': 'Get private profile (authenticated)',
+  'PUT /api/profile': 'Update profile',
+  'POST /api/profile/avatar': 'Upload avatar',
+  'POST /api/profile/cover': 'Upload cover image',
+  'DELETE /api/profile/avatar': 'Remove avatar',
+  
+  // Skills
+  'GET /api/profile/skills': 'Get user skills',
+  'POST /api/profile/skills': 'Add skill',
+  'PUT /api/profile/skills/:id': 'Update skill proficiency',
+  'DELETE /api/profile/skills/:id': 'Remove skill',
+  'POST /api/profile/skills/:id/endorse': 'Endorse skill',
+  
+  // Experience
+  'GET /api/profile/experience': 'Get work experience',
+  'POST /api/profile/experience': 'Add experience',
+  'PUT /api/profile/experience/:id': 'Update experience',
+  'DELETE /api/profile/experience/:id': 'Delete experience',
+  
+  // Portfolio
+  'GET /api/profile/portfolio': 'Get portfolio items',
+  'POST /api/profile/portfolio': 'Add portfolio item',
+  'PUT /api/profile/portfolio/:id': 'Update portfolio',
+  'DELETE /api/profile/portfolio/:id': 'Delete portfolio',
+  'POST /api/profile/portfolio/:id/feature': 'Feature project',
+  
+  // Settings
+  'GET /api/settings': 'Get all settings',
+  'PUT /api/settings/account': 'Update account settings',
+  'PUT /api/settings/privacy': 'Update privacy settings',
+  'PUT /api/settings/notifications': 'Update notification preferences',
+  'PUT /api/settings/appearance': 'Update appearance settings',
+  
+  // Security
+  'POST /api/security/2fa/enable': 'Enable 2FA',
+  'POST /api/security/2fa/disable': 'Disable 2FA',
+  'POST /api/security/2fa/verify': 'Verify 2FA code',
+  'GET /api/security/login-history': 'Get login history',
+  'POST /api/security/change-password': 'Change password',
+  
+  // Account Deletion
+  'POST /api/account/deletion/request': 'Request account deletion',
+  'GET /api/account/deletion/status': 'Get deletion status',
+  'POST /api/account/deletion/cancel': 'Cancel deletion request',
+  'POST /api/account/deletion/confirm': 'Confirm deletion',
+  
+  // Data Export
+  'POST /api/data/export': 'Request data export',
+  'GET /api/data/exports': 'List exports',
+  'GET /api/data/export/:id/download': 'Download export'
+}
+```
+
+---
+
+## **PART 8: VALIDATION RULES**
+
+### **8.1 Input Validation**
+
+```javascript
+VALIDATION_RULES = {
+  username: {
+    pattern: /^[a-zA-Z0-9_]{3,20}$/,
+    message: '3-20 characters, letters, numbers, underscores only'
+  },
+  displayName: {
+    minLength: 2,
+    maxLength: 50,
+    message: '2-50 characters'
+  },
+  email: {
+    pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+    message: 'Valid email required'
+  },
+  phone: {
+    pattern: /^\+?[\d\s-]{10,15}$/,
+    message: 'Valid phone number required'
+  },
+  password: {
+    minLength: 8,
+    requireUppercase: true,
+    requireLowercase: true,
+    requireNumbers: true,
+    requireSpecial: true,
+    message: 'Minimum 8 characters with uppercase, lowercase, number, and special character'
+  },
+  skills: {
+    min: 1,
+    max: 50,
+    message: 'Select at least 1 skill'
+  },
+  portfolio: {
+    maxItems: 50,
+    imageSize: '5MB',
+    imageTypes: ['jpg', 'png', 'gif', 'webp']
+  }
+}
+```
+
+---
+
+## **PART 9: UI COMPONENTS FOR PROFILE**
+
+### **9.1 Profile Card Components**
+
+```jsx
+// Profile Header Component
+<ProfileHeader>
+  <CoverImage src={cover} editable={isOwnProfile} />
+  <Avatar src={avatar} size="xl" editable={isOwnProfile} badge={verified} />
+  <ProfileInfo>
+    <DisplayName>{displayName}</DisplayName>
+    <Username>@{username}</Username>
+    <Tagline>{tagline}</Tagline>
+    <Location>📍 {location}</Location>
+    <Stats>
+      <StatItem label="Projects" value={projectsCount} />
+      <StatItem label="Earnings" value={formatNaira(earnings)} />
+      <StatItem label="Rating" value={rating} icon="⭐" />
+    </Stats>
+  </ProfileInfo>
+  <ActionButtons>
+    {isOwnProfile ? (
+      <Button variant="primary" icon="✏️">Edit Profile</Button>
+    ) : (
+      <>
+        <Button variant="primary" icon="💬">Message</Button>
+        <Button variant="secondary" icon="🤝">Connect</Button>
+        <Button variant="ghost" icon="✓">Follow</Button>
+      </>
+    )}
+  </ActionButtons>
+</ProfileHeader>
+
+// Skills Section Component
+<SkillsSection>
+  <SectionHeader title="Skills" action={<EditButton />} />
+  <SkillCloud>
+    {skills.map(skill => (
+      <SkillTag 
+        key={skill.id}
+        name={skill.name}
+        endorsements={skill.endorsements}
+        verified={skill.verified}
+        onEndorse={canEndorse ? () => endorse(skill.id) : null}
+      />
+    ))}
+  </SkillCloud>
+</SkillsSection>
+
+// Portfolio Grid Component
+<PortfolioGrid>
+  {portfolio.map(item => (
+    <PortfolioCard
+      key={item.id}
+      image={item.thumbnail}
+      title={item.title}
+      technologies={item.technologies}
+      featured={item.featured}
+      onClick={() => viewProject(item.id)}
+      actions={
+        isOwnProfile && (
+          <CardActions>
+            <Button icon="✏️" size="sm" onClick={() => edit(item.id)} />
+            <Button icon="🗑️" size="sm" onClick={() => delete(item.id)} />
+            <Button icon="⭐" size="sm" onClick={() => feature(item.id)} />
+          </CardActions>
+        )
+      }
+    />
+  ))}
+</PortfolioGrid>
+```
+
+---
+
+## **PART 10: SUCCESS METRICS**
+
+### **10.1 Profile KPIs**
+
+| Metric | Target | Measurement |
+|--------|--------|-------------|
+| Profile Completion Rate | 85% | % of users with >80% complete |
+| Profile Views | 100k/month | Total profile views |
+| Connection Rate | 30% | % of views that connect |
+| Hire Rate | 15% | % of views that hire |
+| Profile Edits | 50% | % of users editing monthly |
+| Account Deletion Rate | <5% | % of users deleting |
+| Reactivation Rate | 20% | % who reactivate during grace |
+
+---
+
+## **PART 11: COMPLIANCE & LEGAL**
+
+### **11.1 Data Retention Policy**
+
+```javascript
+DATA_RETENTION = {
+  active_accounts: 'Until deletion request',
+  deleted_accounts: {
+    personal_data: '30 days (grace period) then deleted',
+    transaction_records: '7 years (legal requirement)',
+    tax_documents: '7 years',
+    dispute_records: '5 years after resolution',
+    analytics: 'Anonymized after 30 days'
+  },
+  export_requests: 'Stored for 7 days',
+  login_history: '90 days',
+  messages: 'Deleted with account'
+}
+```
+
+### **11.2 GDPR/NDPR Compliance**
+
+```
+User Rights:
+✓ Right to access (data export)
+✓ Right to rectification (edit profile)
+✓ Right to erasure (delete account)
+✓ Right to restrict processing (privacy settings)
+✓ Right to data portability (export)
+✓ Right to object (opt-out)
+✓ Rights related to automation (AI preferences)
+```
+
+---
+
+## **APPENDIX: PROFILE TEMPLATES**
+
+### **Freelancer Profile Template**
+```json
+{
+  "displayName": "",
+  "tagline": "",
+  "about": "",
+  "skills": [],
+  "experience": [],
+  "education": [],
+  "portfolio": [],
+  "certifications": [],
+  "languages": [],
+  "availability": "available",
+  "rate": { "min": 0, "max": 0, "currency": "NGN" }
+}
+```
+
+### **Client Profile Template**
+```json
+{
+  "displayName": "",
+  "companyName": "",
+  "industry": "",
+  "companySize": "",
+  "about": "",
+  "website": "",
+  "projectsPosted": 0,
+  "totalSpent": 0,
+  "preferredSkills": []
+}
+```
+
+### **Company Profile Template**
+```json
+{
+  "companyName": "",
+  "registrationNumber": "",
+  "yearFounded": "",
+  "industry": "",
+  "companySize": "",
+  "description": "",
+  "website": "",
+  "socialLinks": {},
+  "teamMembers": [],
+  "verifiedBadge": false
+}
+```
+
+---
+
+## **APPROVALS**
+
+| Role | Name | Signature | Date |
+|------|------|-----------|------|
+| Product Manager | | | |
+| UX Lead | | | |
+| Engineering Lead | | | |
+| Security Lead | | | |
+| Legal Counsel | | | |
+
+## **DESIGN APPROVALS**
+
+| Role | Name | Signature | Date |
+|------|------|-----------|------|
+| Creative Director | | | |
+| UX Director | | | |
+| Product Designer | | | |
+| UI Developer | | | |
+| Accessibility Lead | | | |
+
+---
+
+**© 2026 EL VERSE - My Space FPA Design System**  
+*"Shaping Visions Through Design"*  
+*Version 2.0 - Complete Design Documentation*
