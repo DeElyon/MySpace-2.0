@@ -1,8 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import Sidebar from '../ui/Sidebar';
-import TopBar from '../ui/TopBar';
+import { Sidebar, TopBar } from '@msf/ui';
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -61,12 +60,11 @@ export default function DashboardLayout({
       >
         {/* Top Bar */}
         <TopBar
-          title={title}
           searchPlaceholder="Search jobs, projects, or people..."
+          walletBalance="₦245,000"
           notifications={5}
           user={{
-            name: 'John Doe',
-            role: 'Full-Stack Developer',
+            name: 'Sarah Johnson',
             avatar: undefined
           }}
         />
