@@ -1,3 +1,4 @@
 packages:
-  - 'my-space-fpa/apps/*'
-  - 'my-space-fpa/services/*'
+  - 'apps/*'
+  - 'services/*'
+  - 'packages/*'

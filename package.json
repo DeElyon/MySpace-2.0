@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "cd my-space-fpa/apps/web && npm run dev",
-    "build": "cd my-space-fpa/apps/web && npm run build",
-    "start": "cd my-space-fpa/apps/web && npm run start",
-    "lint": "cd my-space-fpa/apps/web && npm run lint"
+    "dev": "cd my-space-fpa && pnpm install && cd apps/web && pnpm run dev",
+    "build": "cd my-space-fpa && pnpm install && cd apps/web && pnpm run build",
+    "start": "cd my-space-fpa/apps/web && pnpm run start",
+    "lint": "cd my-space-fpa/apps/web && pnpm run lint"
   }
 }
