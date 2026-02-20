@@ -2,30 +2,10 @@
   "name": "job-service",
   "version": "1.0.0",
   "description": "Job Management Service for My Space FPA (Python/FastAPI)",
+  "private": true,
   "scripts": {
-    "dev": "uvicorn app.main:app --reload --host 0.0.0.0 --port 3002",
-    "start": "uvicorn app.main:app --host 0.0.0.0 --port 3002",
-    "lint": "ruff check .",
-    "format": "black .",
-    "test": "pytest"
-  },
-  "dependencies": {
-    "fastapi": "^0.109.0",
-    "uvicorn": "^0.27.0",
-    "pydantic": "^2.5.3",
-    "sqlalchemy": "^2.0.25",
-    "asyncpg": "^0.29.0",
-    "psycopg2-binary": "^2.9.9",
-    "python-jose": "^3.3.0",
-    "passlib": "^1.7.4",
-    "bcrypt": "^4.1.2",
-    "python-multipart": "^0.0.6",
-    "elasticsearch": "^8.11.3"
-  },
-  "devDependencies": {
-    "black": "^24.1.0",
-    "ruff": "^0.1.14",
-    "pytest": "^7.4.4",
-    "pytest-asyncio": "^0.23.3"
+    "dev": "echo 'Job service is a Python service. Use: python -m pip install -r requirements.txt && uvicorn app.main:app --reload'",
+    "start": "echo 'Job service is a Python service. Use: python -m pip install -r requirements.txt && uvicorn app.main:app'",
+    "build": "echo 'Job service is a Python service. See requirements.txt for dependencies'"
   }
 }

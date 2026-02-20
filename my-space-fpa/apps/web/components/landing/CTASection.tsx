@@ -1,5 +1,4 @@
 import React from 'react';
-import Button from '../ui/Button';
 
 interface CTASectionProps {
   title?: string;
@@ -44,22 +43,19 @@ export default function CTASection({
         </p>
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
-          <Button
-            variant="primary"
-            size="lg"
+          <button
             onClick={primaryAction.onClick}
-            className="min-w-[200px]"
+            className="min-w-[200px] px-8 py-4 bg-gradient-to-r from-msf-cosmic-purple to-msf-neon-cyan rounded-full text-white font-bold text-lg shadow-[0_0_30px_rgba(99,102,241,0.5)] hover:scale-105 transition-transform"
           >
             {primaryAction.label}
-          </Button>
+          </button>
           
-          <Button
-            variant="secondary"
-            size="lg"
+          <button
             onClick={secondaryAction.onClick}
+            className="px-8 py-4 border border-msf-mist/30 text-white font-medium rounded-full text-lg hover:bg-white/5 transition-colors backdrop-blur-sm"
           >
             {secondaryAction.label}
-          </Button>
+          </button>
         </div>
 
         {/* Trust Indicators */}

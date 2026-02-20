@@ -3,9 +3,13 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "cd my-space-fpa && pnpm install && cd apps/web && pnpm run dev",
-    "build": "cd my-space-fpa && pnpm install && cd apps/web && pnpm run build",
+    "dev": "cd my-space-fpa && pnpm install && pnpm run dev:web",
+    "build": "cd my-space-fpa && pnpm install && pnpm run build:web",
     "start": "cd my-space-fpa/apps/web && pnpm run start",
-    "lint": "cd my-space-fpa/apps/web && pnpm run lint"
+    "lint": "cd my-space-fpa && pnpm run lint"
+  },
+  "dependencies": {
+    "react": "^19.2.4",
+    "tailwindcss": "^4.2.0"
   }
 }

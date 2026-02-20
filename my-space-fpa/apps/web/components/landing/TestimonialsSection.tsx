@@ -1,5 +1,4 @@
 import React from 'react';
-import Avatar from '../ui/Avatar';
 
 interface Testimonial {
   id: string;
@@ -7,7 +6,6 @@ interface Testimonial {
   author: {
     name: string;
     role: string;
-    avatar?: string;
   };
   rating: number;
 }
@@ -25,8 +23,7 @@ export default function TestimonialsSection({
       content: 'My Space FPA has transformed how I work. The built-in IDE and video calls make collaboration seamless. I\'ve earned 3x more since joining!',
       author: {
         name: 'Sarah Johnson',
-        role: 'Full-Stack Developer',
-        avatar: undefined
+        role: 'Full-Stack Developer'
       },
       rating: 5
     },
@@ -35,8 +32,7 @@ export default function TestimonialsSection({
       content: 'The AI matching is incredible. I get high-quality projects that perfectly match my skills. Payment is always on time.',
       author: {
         name: 'Michael Okafor',
-        role: 'UI/UX Designer',
-        avatar: undefined
+        role: 'UI/UX Designer'
       },
       rating: 5
     },
@@ -45,8 +41,7 @@ export default function TestimonialsSection({
       content: 'Finally, a platform that understands African freelancers. The wallet system makes receiving payments so easy.',
       author: {
         name: 'Amina Hassan',
-        role: 'Content Writer',
-        avatar: undefined
+        role: 'Content Writer'
       },
       rating: 5
     }
@@ -89,20 +84,13 @@ export default function TestimonialsSection({
               </p>
 
               {/* Author */}
-              <div className="flex items-center gap-3">
-                <Avatar
-                  src={testimonial.author.avatar}
-                  alt={testimonial.author.name}
-                  size="md"
-                />
-                <div>
-                  <p className="text-white font-medium">
-                    {testimonial.author.name}
-                  </p>
-                  <p className="text-sm text-msf-mist">
-                    {testimonial.author.role}
-                  </p>
-                </div>
+              <div>
+                <p className="text-white font-medium">
+                  {testimonial.author.name}
+                </p>
+                <p className="text-sm text-msf-mist">
+                  {testimonial.author.role}
+                </p>
               </div>
             </div>
           ))}
