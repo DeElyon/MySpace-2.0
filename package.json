@@ -2,10 +2,6 @@
   "name": "myspace-2.0",
   "version": "1.0.0",
   "private": true,
-  "workspaces": [
-    "my-space-fpa/apps/*",
-    "my-space-fpa/services/*"
-  ],
   "scripts": {
     "dev": "cd my-space-fpa/apps/web && npm run dev",
     "build": "cd my-space-fpa/apps/web && npm run build",
