@@ -3,22 +3,22 @@
 > **Shaping Visions in 2026** - A next-generation freelancing platform by EL VERSE
 
 [![Build Status](https://github.com/el-verse/my-space-fpa/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/el-verse/my-space-fpa/actions)
-[![License](https://img.shields.io/badge/license-proprietary-blue.svg)](LICENSE)
+[![License](https://img.shields.io/badge/license-proprietary-blue.svg)](my-space-fpa/LICENSE)
 
 ---
 
 ## 📋 Table of Contents
 
-- [Overview](#overview)
-- [Features](#features)
-- [Tech Stack](#tech-stack)
-- [Architecture](#architecture)
-- [Getting Started](#getting-started)
-- [Project Structure](#project-structure)
-- [API Documentation](#api-documentation)
-- [Deployment](#deployment)
-- [Monitoring](#monitoring)
-- [Contributing](#contributing)
+- [Overview](my-space-fpa/README.md#overview)
+- [Features](my-space-fpa/README.md#features)
+- [Tech Stack](my-space-fpa/README.md#tech-stack)
+- [Architecture](my-space-fpa/README.md#architecture)
+- [Getting Started](my-space-fpa/README.md#getting-started)
+- [Project Structure](my-space-fpa/README.md#project-structure)
+- [API Documentation](my-space-fpa/README.md#api-documentation)
+- [Deployment](my-space-fpa/README.md#deployment)
+- [Monitoring](my-space-fpa/README.md#monitoring)
+- [Contributing](my-space-fpa/README.md#contributing)
 
 ---
 
