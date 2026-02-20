@@ -7,5 +7,9 @@
     "build": "cd my-space-fpa && pnpm install && pnpm run build:web",
     "start": "cd my-space-fpa/apps/web && pnpm run start",
     "lint": "cd my-space-fpa && pnpm run lint"
+  },
+  "dependencies": {
+    "react": "^19.2.4",
+    "tailwindcss": "^4.2.0"
   }
 }
