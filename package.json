@@ -1,16 +1,15 @@
 {
   "name": "myspace-2.0",
   "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "my-space-fpa/apps/*",
+    "my-space-fpa/services/*"
+  ],
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
-  },
-  "dependencies": {
-    "@qwen-code/qwen-code": "^0.10.5",
-    "next": "^16.0.0",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "dev": "cd my-space-fpa/apps/web && npm run dev",
+    "build": "cd my-space-fpa/apps/web && npm run build",
+    "start": "cd my-space-fpa/apps/web && npm run start",
+    "lint": "cd my-space-fpa/apps/web && npm run lint"
   }
 }
