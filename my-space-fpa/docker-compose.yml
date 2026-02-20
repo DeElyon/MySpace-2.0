@@ -1,0 +1,21 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: msf-postgres
+    environment:
+      POSTGRES_USER: msf_admin
+      POSTGRES_PASSWORD: msf_password
+      POSTGRES_DB: my_space_fpa
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7.2-alpine
+    container_name: msf-redis
+    ports:
+      - "6379:6379"
+
+volumes:
+  postgres_data:

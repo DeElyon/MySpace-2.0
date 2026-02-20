@@ -1,0 +1,120 @@
+@import "tailwindcss";
+
+:root {
+  /* Primary Colors */
+  --msf-deep-space: #0A0F1E;      /* Main background */
+  --msf-cosmic-purple: #6366F1;    /* Primary actions */
+  --msf-neon-cyan: #22D3EE;        /* Active states, AI */
+  --msf-emerald-glow: #10B981;      /* Success, payments */
+  
+  /* Secondary Colors */
+  --msf-creative-coral: #F87171;    /* Alerts, creativity */
+  --msf-warning-amber: #FBBF24;     /* Warnings, deadlines */
+  --msf-focus-blue: #38BDF8;        /* Selection, focus */
+  
+  /* Neutrals */
+  --msf-void: #030712;              /* Deepest background */
+  --msf-elevation-1: #1F2937;       /* Cards, surfaces */
+  --msf-elevation-2: #374151;       /* Hover states */
+  --msf-mist: #9CA3AF;               /* Secondary text */
+  --msf-pure-light: #F9FAFB;         /* Primary text */
+  
+  /* Gradients */
+  --gradient-cosmic: linear-gradient(135deg, #6366F1 0%, #22D3EE 100%);
+  --gradient-success: linear-gradient(135deg, #10B981 0%, #34D399 100%);
+  --gradient-warning: linear-gradient(135deg, #F87171 0%, #FBBF24 100%);
+  --gradient-meeting: linear-gradient(45deg, #6366F1, #F87171, #22D3EE);
+
+  --background: var(--msf-deep-space);
+  --foreground: var(--msf-pure-light);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  
+  --color-msf-deep-space: var(--msf-deep-space);
+  --color-msf-cosmic-purple: var(--msf-cosmic-purple);
+  --color-msf-neon-cyan: var(--msf-neon-cyan);
+  --color-msf-emerald-glow: var(--msf-emerald-glow);
+  --color-msf-creative-coral: var(--msf-creative-coral);
+  --color-msf-warning-amber: var(--msf-warning-amber);
+  --color-msf-focus-blue: var(--msf-focus-blue);
+  --color-msf-void: var(--msf-void);
+  --color-msf-elevation-1: var(--msf-elevation-1);
+  --color-msf-elevation-2: var(--msf-elevation-2);
+  --color-msf-mist: var(--msf-mist);
+  --color-msf-pure-light: var(--msf-pure-light);
+
+  --font-sans: var(--font-inter);
+  --font-mono: var(--font-jetbrains-mono);
+  --font-display: var(--font-space-grotesk);
+
+  --radius-xl: 1.5rem;
+  --radius-2xl: 2rem;
+  --radius-3xl: 2.5rem;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+}
+
+/* Glassmorphism Utilities */
+.glass-card {
+  background: rgba(31, 41, 55, 0.7);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.glass-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 48px rgba(99, 102, 241, 0.2);
+}
+
+.glass-nav {
+  background: rgba(10, 15, 30, 0.85);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Animations from Design Doc Part 4.1 */
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.4); }
+  50% { box-shadow: 0 0 20px 5px rgba(99, 102, 241, 0.2); }
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--msf-void);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--msf-elevation-2);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--msf-cosmic-purple);
+}
