@@ -1,5 +1,9 @@
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
+import FeaturesSection from "@/components/landing/FeaturesSection";
+import StatsSection from "@/components/landing/StatsSection";
+import TestimonialsSection from "@/components/landing/TestimonialsSection";
+import CTASection from "@/components/landing/CTASection";
 
 export default function Home() {
   return (
@@ -7,42 +11,72 @@ export default function Home() {
       <Navbar />
       <Hero />
       
-      {/* Features Grid Placeholder */}
-      <section className="py-20 px-6 max-w-7xl mx-auto">
-        <h2 className="text-4xl font-display font-bold text-center mb-12 text-white">
-          Why <span className="text-msf-cosmic-purple">My Space FPA</span>?
-        </h2>
-        
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div className="glass-card p-8 rounded-2xl border border-white/5 hover:border-msf-cosmic-purple/50 transition-colors">
-            <div className="w-12 h-12 bg-msf-cosmic-purple/20 rounded-lg flex items-center justify-center mb-6 text-2xl">
-              🎥
+      {/* Stats Section */}
+      <StatsSection />
+      
+      {/* Features Section */}
+      <FeaturesSection />
+      
+      {/* Testimonials Section */}
+      <TestimonialsSection />
+      
+      {/* CTA Section */}
+      <CTASection />
+
+      {/* Footer */}
+      <footer className="py-12 px-6 border-t border-white/5">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-8">
+            <div>
+              <h4 className="text-white font-bold mb-4">Platform</h4>
+              <ul className="space-y-2 text-msf-mist text-sm">
+                <li><a href="#" className="hover:text-white transition-colors">Marketplace</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Features</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Pricing</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Enterprise</a></li>
+              </ul>
             </div>
-            <h3 className="text-xl font-bold mb-4 text-white">Video Meetings</h3>
-            <p className="text-msf-mist">Native HD video calls integrated directly into your workspace. No external tools needed.</p>
+            <div>
+              <h4 className="text-white font-bold mb-4">Resources</h4>
+              <ul className="space-y-2 text-msf-mist text-sm">
+                <li><a href="#" className="hover:text-white transition-colors">Documentation</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Blog</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Community</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Help Center</a></li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="text-white font-bold mb-4">Company</h4>
+              <ul className="space-y-2 text-msf-mist text-sm">
+                <li><a href="#" className="hover:text-white transition-colors">About</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Careers</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Privacy</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Terms</a></li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="text-white font-bold mb-4">Connect</h4>
+              <ul className="space-y-2 text-msf-mist text-sm">
+                <li><a href="#" className="hover:text-white transition-colors">Twitter</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">LinkedIn</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">GitHub</a></li>
+                <li><a href="#" className="hover:text-white transition-colors">Discord</a></li>
+              </ul>
+            </div>
           </div>
           
-          <div className="glass-card p-8 rounded-2xl border border-white/5 hover:border-msf-neon-cyan/50 transition-colors">
-            <div className="w-12 h-12 bg-msf-neon-cyan/20 rounded-lg flex items-center justify-center mb-6 text-2xl">
-              💻
+          <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-4">
+            <div className="flex items-center gap-2">
+              <div className="w-6 h-6 rounded-full bg-gradient-to-tr from-msf-cosmic-purple to-msf-neon-cyan" />
+              <span className="text-white font-bold">
+                My Space <span className="text-msf-cosmic-purple">FPA</span>
+              </span>
             </div>
-            <h3 className="text-xl font-bold mb-4 text-white">Cloud IDE</h3>
-            <p className="text-msf-mist">Real-time collaborative coding environment with AI pair programmer support.</p>
-          </div>
-          
-          <div className="glass-card p-8 rounded-2xl border border-white/5 hover:border-msf-emerald-glow/50 transition-colors">
-            <div className="w-12 h-12 bg-msf-emerald-glow/20 rounded-lg flex items-center justify-center mb-6 text-2xl">
-              🤖
-            </div>
-            <h3 className="text-xl font-bold mb-4 text-white">AI Assistant</h3>
-            <p className="text-msf-mist">Smart job matching, proposal writing, and code review powered by advanced AI.</p>
+            <p className="text-msf-mist text-sm">
+              © 2026 My Space FPA - EL VERSE. All rights reserved.
+            </p>
           </div>
         </div>
-      </section>
-      
-      {/* Footer Placeholder */}
-      <footer className="py-12 border-t border-white/5 text-center text-msf-mist text-sm">
-        <p>© 2026 My Space FPA - EL VERSE. All rights reserved.</p>
       </footer>
     </main>
   );

@@ -1,0 +1,122 @@
+// Prisma schema for MSF Auth & Profile system
+// Part 7.1 Database Schema from PRD
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum AccountStatus {
+  ACTIVE
+  SUSPENDED
+  DEACTIVATED
+  DELETION_SCHEDULED
+}
+
+enum AccountType {
+  FREELANCER
+  CLIENT
+  COMPANY
+  AGENCY
+}
+
+enum ProfileVisibility {
+  PUBLIC
+  CONNECTIONS
+  PRIVATE
+}
+
+model User {
+  id                    String            @id @default(uuid())
+  email                 String            @unique
+  username              String            @unique
+  msf_id                String            @unique // Unique Identification System
+  password_hash         String
+  display_name          String?
+  tagline               String?           @db.VarChar(200)
+  about                 String?           @db.Text
+  location              String?
+  avatar_url            String?
+  cover_url             String?
+  account_type          AccountType
+  account_status        AccountStatus     @default(ACTIVE)
+  deletion_scheduled_at DateTime?
+  profile_completion    Int               @default(0)
+  profile_visibility    ProfileVisibility @default(PUBLIC)
+  wallet_balance        Decimal           @default(0.00) @db.Decimal(15, 2)
+  payment_status        Boolean           @default(false)
+  fingerprint_hash      String?
+  last_active           DateTime?
+  created_at            DateTime          @default(now())
+  updated_at            DateTime          @updatedAt
+
+  settings              UserSettings?
+  skills                UserSkill[]
+  experience            UserExperience[]
+  portfolio             UserPortfolio[]
+  
+  @@map("users")
+}
+
+model UserSettings {
+  userId                  String    @id
+  user                    User      @relation(fields: [userId], references: [id])
+  two_factor_enabled       Boolean   @default(false)
+  two_factor_method        String?
+  notification_preferences JSON?
+  privacy_settings        JSON?
+  appearance_settings     JSON?
+  language                String    @default("en")
+  timezone                String    @default("Africa/Lagos")
+  quiet_hours             JSON?
+  ai_preferences          JSON?
+
+  @@map("user_settings")
+}
+
+model UserSkill {
+  id           String   @id @default(uuid())
+  userId       String
+  user         User     @relation(fields: [userId], references: [id])
+  skill_name   String
+  proficiency  Int      // 1-5
+  endorsements Int      @default(0)
+  verified     Boolean  @default(false)
+  created_at   DateTime @default(now())
+
+  @@map("user_skills")
+}
+
+model UserExperience {
+  id          String   @id @default(uuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  title       String
+  company     String
+  start_date  DateTime
+  end_date    DateTime?
+  current     Boolean  @default(false)
+  description String?  @db.Text
+  created_at  DateTime @default(now())
+
+  @@map("user_experience")
+}
+
+model UserPortfolio {
+  id           String   @id @default(uuid())
+  userId       String
+  user         User     @relation(fields: [userId], references: [id])
+  title        String
+  description  String?  @db.Text
+  project_url  String?
+  github_url   String?
+  technologies String[]
+  featured     Boolean  @default(false)
+  created_at   DateTime @default(now())
+
+  @@map("user_portfolio")
+}

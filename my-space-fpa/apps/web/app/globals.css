@@ -1,29 +1,54 @@
 @import "tailwindcss";
 
 :root {
-  /* Primary Colors */
+  /* ===== PRIMARY COLORS (Design Doc 1.2.2) ===== */
   --msf-deep-space: #0A0F1E;      /* Main background */
   --msf-cosmic-purple: #6366F1;    /* Primary actions */
   --msf-neon-cyan: #22D3EE;        /* Active states, AI */
   --msf-emerald-glow: #10B981;      /* Success, payments */
-  
-  /* Secondary Colors */
+
+  /* ===== SECONDARY COLORS ===== */
   --msf-creative-coral: #F87171;    /* Alerts, creativity */
   --msf-warning-amber: #FBBF24;     /* Warnings, deadlines */
   --msf-focus-blue: #38BDF8;        /* Selection, focus */
-  
-  /* Neutrals */
+
+  /* ===== NEUTRALS ===== */
   --msf-void: #030712;              /* Deepest background */
   --msf-elevation-1: #1F2937;       /* Cards, surfaces */
   --msf-elevation-2: #374151;       /* Hover states */
   --msf-mist: #9CA3AF;               /* Secondary text */
   --msf-pure-light: #F9FAFB;         /* Primary text */
-  
-  /* Gradients */
+
+  /* ===== GRADIENTS ===== */
   --gradient-cosmic: linear-gradient(135deg, #6366F1 0%, #22D3EE 100%);
   --gradient-success: linear-gradient(135deg, #10B981 0%, #34D399 100%);
   --gradient-warning: linear-gradient(135deg, #F87171 0%, #FBBF24 100%);
   --gradient-meeting: linear-gradient(45deg, #6366F1, #F87171, #22D3EE);
+
+  /* ===== SPACING SYSTEM (Design Doc 1.2.4) ===== */
+  --space-unit: 0.25rem;  /* 4px base unit */
+  --space-1: 0.25rem;     /* 4px */
+  --space-2: 0.5rem;      /* 8px */
+  --space-3: 0.75rem;     /* 12px */
+  --space-4: 1rem;        /* 16px */
+  --space-6: 1.5rem;      /* 24px */
+  --space-8: 2rem;        /* 32px */
+  --space-12: 3rem;       /* 48px */
+  --space-16: 4rem;       /* 64px */
+  --space-20: 5rem;       /* 80px */
+  --space-24: 6rem;       /* 96px */
+
+  /* ===== TYPOGRAPHY SCALE (Design Doc 1.2.3) ===== */
+  --text-xs: 0.75rem;     /* 12px - Labels, timestamps */
+  --text-sm: 0.875rem;    /* 14px - Secondary text */
+  --text-base: 1rem;      /* 16px - Body text */
+  --text-lg: 1.125rem;    /* 18px - Lead text */
+  --text-xl: 1.25rem;     /* 20px - Subheadings */
+  --text-2xl: 1.5rem;     /* 24px - Small headings */
+  --text-3xl: 1.875rem;   /* 30px - Medium headings */
+  --text-4xl: 2.25rem;    /* 36px - Large headings */
+  --text-5xl: 3rem;       /* 48px - Hero headings */
+  --text-6xl: 3.75rem;    /* 60px - Display headings */
 
   --background: var(--msf-deep-space);
   --foreground: var(--msf-pure-light);
@@ -32,27 +57,42 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  
+
+  /* Primary Colors */
   --color-msf-deep-space: var(--msf-deep-space);
   --color-msf-cosmic-purple: var(--msf-cosmic-purple);
   --color-msf-neon-cyan: var(--msf-neon-cyan);
   --color-msf-emerald-glow: var(--msf-emerald-glow);
+
+  /* Secondary Colors */
   --color-msf-creative-coral: var(--msf-creative-coral);
   --color-msf-warning-amber: var(--msf-warning-amber);
   --color-msf-focus-blue: var(--msf-focus-blue);
+
+  /* Neutrals */
   --color-msf-void: var(--msf-void);
   --color-msf-elevation-1: var(--msf-elevation-1);
   --color-msf-elevation-2: var(--msf-elevation-2);
   --color-msf-mist: var(--msf-mist);
   --color-msf-pure-light: var(--msf-pure-light);
 
+  /* Fonts */
   --font-sans: var(--font-inter);
   --font-mono: var(--font-jetbrains-mono);
   --font-display: var(--font-space-grotesk);
 
+  /* Border Radius */
+  --radius-lg: 1rem;
   --radius-xl: 1.5rem;
   --radius-2xl: 2rem;
   --radius-3xl: 2.5rem;
+  --radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-glow: 0 0 20px rgba(99, 102, 241, 0.3);
+  --shadow-glow-lg: 0 0 40px rgba(99, 102, 241, 0.4);
+  --shadow-elevation: 0 8px 32px rgba(0, 0, 0, 0.3);
+  --shadow-elevation-lg: 0 12px 48px rgba(0, 0, 0, 0.4);
 }
 
 body {
@@ -60,14 +100,16 @@ body {
   color: var(--foreground);
   font-family: var(--font-sans);
   overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Glassmorphism Utilities */
+/* ===== GLASSMORPHISM COMPONENTS (Design Doc 2.1.1) ===== */
 .glass-card {
   background: rgba(31, 41, 55, 0.7);
   backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  box-shadow: var(--shadow-elevation);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -76,13 +118,26 @@ body {
   box-shadow: 0 12px 48px rgba(99, 102, 241, 0.2);
 }
 
+.glass-card-elevated {
+  background: rgba(31, 41, 55, 0.85);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: var(--shadow-elevation-lg);
+}
+
 .glass-nav {
   background: rgba(10, 15, 30, 0.85);
   backdrop-filter: blur(16px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-/* Animations from Design Doc Part 4.1 */
+.glass-panel {
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* ===== ANIMATIONS (Design Doc Part 4.1) ===== */
 @keyframes pulse-glow {
   0%, 100% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.4); }
   50% { box-shadow: 0 0 20px 5px rgba(99, 102, 241, 0.2); }
@@ -101,9 +156,92 @@ body {
   animation: float 6s ease-in-out infinite;
 }
 
-/* Custom Scrollbar */
+@keyframes cursor-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.animate-cursor-blink {
+  animation: cursor-blink 1s infinite;
+}
+
+@keyframes typing-dots {
+  0%, 20% { content: '.'; }
+  40%, 60% { content: '..'; }
+  80%, 100% { content: '...'; }
+}
+
+.typing-indicator::after {
+  content: '...';
+  animation: typing-dots 1.5s infinite;
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.6s ease-out forwards;
+}
+
+@keyframes slide-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-slide-in-right {
+  animation: slide-in-right 0.4s ease-out forwards;
+}
+
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-scale-in {
+  animation: scale-in 0.3s ease-out forwards;
+}
+
+/* ===== HOVER EFFECTS ===== */
+.hover-lift {
+  transition: transform 0.2s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-4px);
+}
+
+.hover-glow {
+  transition: box-shadow 0.3s ease;
+}
+
+.hover-glow:hover {
+  box-shadow: 0 0 30px rgba(99, 102, 241, 0.4);
+}
+
+/* ===== CUSTOM SCROLLBAR ===== */
 ::-webkit-scrollbar {
   width: 8px;
+  height: 8px;
 }
 
 ::-webkit-scrollbar-track {
@@ -117,4 +255,68 @@ body {
 
 ::-webkit-scrollbar-thumb:hover {
   background: var(--msf-cosmic-purple);
+}
+
+/* ===== UTILITY CLASSES ===== */
+.text-gradient {
+  background: var(--gradient-cosmic);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-gradient-success {
+  background: var(--gradient-success);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-gradient-warning {
+  background: var(--gradient-warning);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.bg-gradient-cosmic {
+  background: var(--gradient-cosmic);
+}
+
+.bg-gradient-success {
+  background: var(--gradient-success);
+}
+
+.bg-gradient-warning {
+  background: var(--gradient-warning);
+}
+
+/* ===== ACCESSIBILITY (Design Doc 6.1) ===== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Screen reader only class */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Focus styles */
+.focus-visible-ring:focus-visible {
+  outline: 2px solid var(--msf-cosmic-purple);
+  outline-offset: 2px;
 }
