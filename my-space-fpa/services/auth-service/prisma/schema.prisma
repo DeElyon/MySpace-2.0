@@ -120,3 +120,259 @@ model UserPortfolio {
 
   @@map("user_portfolio")
 }
+
+// ===== WALLET & PAYMENT SYSTEM (PRD 2.3) =====
+
+enum WalletTier {
+  TIER_1
+  TIER_2
+  TIER_3
+}
+
+enum TransactionType {
+  DEPOSIT
+  WITHDRAWAL
+  TRANSFER
+  ESCROW_HOLD
+  ESCROW_RELEASE
+  PENALTY
+  REFUND
+  COMMISSION
+}
+
+enum TransactionStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+  CANCELLED
+}
+
+model Wallet {
+  id              String    @id @default(uuid())
+  userId          String    @unique
+  user            User      @relation(fields: [userId], references: [id])
+  balance_ngn     Decimal   @default(0.00) @db.Decimal(15, 2)
+  balance_usd     Decimal   @default(0.00) @db.Decimal(15, 2)
+  balance_gbp     Decimal   @default(0.00) @db.Decimal(15, 2)
+  balance_eur     Decimal   @default(0.00) @db.Decimal(15, 2)
+  tier            WalletTier @default(TIER_1)
+  daily_limit     Decimal   @default(500000.00) @db.Decimal(15, 2)
+  kyc_verified    Boolean   @default(false)
+  kyc_documents   String[]
+  created_at      DateTime  @default(now())
+  updated_at      DateTime  @updatedAt
+
+  transactions    Transaction[]
+  escrows         Escrow[]
+
+  @@map("wallets")
+}
+
+model Transaction {
+  id              String            @id @default(uuid())
+  walletId        String
+  wallet          Wallet            @relation(fields: [walletId], references: [id])
+  type            TransactionType
+  amount          Decimal           @db.Decimal(15, 2)
+  currency        String            @default("NGN")
+  status          TransactionStatus @default(PENDING)
+  description     String?
+  reference       String            @unique
+  from_msf_id     String?
+  to_msf_id       String?
+  receipt_url     String?
+  fingerprint_verified Boolean      @default(false)
+  metadata        Json?
+  created_at      DateTime          @default(now())
+  completed_at    DateTime?
+
+  @@map("transactions")
+}
+
+model Escrow {
+  id              String        @id @default(uuid())
+  walletId        String
+  wallet          Wallet        @relation(fields: [walletId], references: [id])
+  projectId       String
+  amount          Decimal       @db.Decimal(15, 2)
+  currency        String        @default("NGN")
+  status          String        @default("HELD") // HELD, RELEASED, REFUNDED, DISPUTED
+  milestone_id    String?
+  released_at     DateTime?
+  created_at      DateTime      @default(now())
+
+  @@map("escrows")
+}
+
+// ===== JOB & PROPOSAL SYSTEM (PRD 2.4) =====
+
+enum JobType {
+  FIXED
+  HOURLY
+  MILESTONE
+}
+
+enum JobStatus {
+  OPEN
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+  ON_HOLD
+}
+
+enum ProposalStatus {
+  PENDING
+  SHORTLISTED
+  ACCEPTED
+  REJECTED
+  WITHDRAWN
+}
+
+model Job {
+  id              String      @id @default(uuid())
+  msf_id          String      @unique // MSF + job number
+  clientId        String
+  client          User        @relation(fields: [clientId], references: [id])
+  title           String
+  description     String      @db.Text
+  category        String
+  job_type        JobType
+  budget_min      Decimal     @db.Decimal(15, 2)
+  budget_max      Decimal?    @db.Decimal(15, 2)
+  hourly_rate     Decimal?    @db.Decimal(15, 2)
+  currency        String      @default("NGN")
+  duration        String      // Short-term, Long-term, Ongoing
+  skills_required String[]
+  experience_level String     @default("Intermediate")
+  status          JobStatus   @default(OPEN)
+  proposals_count Int         @default(0)
+  views_count     Int         @default(0)
+  deadline        DateTime?
+  ai_match_enabled Boolean    @default(true)
+  created_at      DateTime    @default(now())
+  updated_at      DateTime    @updatedAt
+
+  proposals       Proposal[]
+  milestones      Milestone[]
+
+  @@map("jobs")
+}
+
+model Proposal {
+  id              String           @id @default(uuid())
+  jobId           String
+  job             Job              @relation(fields: [jobId], references: [id])
+  freelancerId    String
+  freelancer      User             @relation(fields: [freelancerId], references: [id])
+  cover_letter    String           @db.Text
+  proposed_budget Decimal          @db.Decimal(15, 2)
+  proposed_timeline Int            // days
+  milestones      String[]         // proposed milestones
+  portfolio_items String[]
+  ai_generated    Boolean          @default(false)
+  status          ProposalStatus   @default(PENDING)
+  match_score     Float?           // AI match score
+  client_viewed   Boolean          @default(false)
+  created_at      DateTime         @default(now())
+  updated_at      DateTime         @updatedAt
+
+  @@map("proposals")
+}
+
+model Milestone {
+  id          String   @id @default(uuid())
+  jobId       String
+  job         Job      @relation(fields: [jobId], references: [id])
+  title       String
+  description String?  @db.Text
+  amount      Decimal  @db.Decimal(15, 2)
+  due_date    DateTime
+  status      String   @default("PENDING") // PENDING, IN_PROGRESS, COMPLETED, APPROVED, REJECTED
+  deliverables String[]
+  completed_at DateTime?
+  approved_at  DateTime?
+  created_at   DateTime @default(now())
+
+  @@map("milestones")
+}
+
+// ===== MESSAGING SYSTEM (PRD 2.10) =====
+
+model Conversation {
+  id         String   @id @default(uuid())
+  participants String[] // Array of user IDs
+  type       String   @default("DIRECT") // DIRECT, GROUP, PROJECT
+  project_id String?
+  last_message String?
+  last_message_at DateTime?
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  messages     Message[]
+
+  @@map("conversations")
+}
+
+model Message {
+  id             String       @id @default(uuid())
+  conversationId String
+  conversation   Conversation @relation(fields: [conversationId], references: [id])
+  senderId       String
+  sender         User         @relation(fields: [senderId], references: [id])
+  content        String       @db.Text
+  type           String       @default("TEXT") // TEXT, IMAGE, FILE, VIDEO, AUDIO
+  attachments    String[]
+  read_by        String[]
+  edited         Boolean      @default(false)
+  deleted        Boolean      @default(false)
+  created_at     DateTime     @default(now())
+
+  @@map("messages")
+}
+
+// ===== NOTIFICATIONS (PRD 2.10) =====
+
+enum NotificationType {
+  JOB_ALERT
+  MESSAGE
+  PAYMENT
+  PROJECT
+  REVIEW
+  SYSTEM
+  REMINDER
+  ACHIEVEMENT
+}
+
+model Notification {
+  id        String           @id @default(uuid())
+  userId    String
+  user      User             @relation(fields: [userId], references: [id])
+  type      NotificationType
+  title     String
+  content   String           @db.Text
+  data      Json?
+  read      Boolean          @default(false)
+  action_url String?
+  created_at DateTime        @default(now())
+
+  @@map("notifications")
+}
+
+// ===== REVIEWS & RATINGS =====
+
+model Review {
+  id          String   @id @default(uuid())
+  jobId       String
+  reviewerId  String
+  reviewer    User     @relation(fields: [reviewerId], references: [id])
+  revieweeId  String
+  reviewee    User     @relation(fields: [revieweeId], references: [id])
+  rating      Int      // 1-5
+  comment     String?  @db.Text
+  categories  Json?    // { communication, quality, deadline, professionalism }
+  visible     Boolean  @default(true)
+  created_at  DateTime @default(now())
+
+  @@map("reviews")
+}
