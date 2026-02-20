@@ -1,25 +1,32 @@
-FROM golang:1.22-alpine AS builder
+# Build stage
+FROM node:20-alpine AS builder
 
 WORKDIR /app
 
-# Install dependencies
-RUN apk add --no-cache git
+COPY package.json pnpm-lock.yaml* ./
 
-COPY go.mod go.sum ./
-RUN go mod download
+RUN npm install -g pnpm && pnpm install --frozen-lockfile
 
 COPY . .
-RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o main .
 
-# Final image
-FROM alpine:latest
+RUN pnpm run build
 
-RUN apk --no-cache add ca-certificates
+# Production stage
+FROM node:20-alpine
 
-WORKDIR /root/
+WORKDIR /app
 
-COPY --from=builder /app/main .
+RUN npm install -g pnpm
 
-EXPOSE 3000
+COPY package.json pnpm-lock.yaml* ./
 
-CMD ["./main"]
+RUN pnpm install --prod --frozen-lockfile
+
+COPY --from=builder /app/dist ./dist
+
+EXPOSE 3002
+
+HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
+  CMD node -e "require('http').get('http://localhost:3002/health', (r) => {if (r.statusCode !== 200) throw new Error(r.statusCode)})"
+
+CMD ["node", "dist/index.js"]
